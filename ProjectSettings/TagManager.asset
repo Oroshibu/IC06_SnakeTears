@@ -44,3 +44,6 @@ TagManager:
   - name: Player
     uniqueID: 2870941749
     locked: 0
+  - name: Effritage
+    uniqueID: 1459955823
+    locked: 0
