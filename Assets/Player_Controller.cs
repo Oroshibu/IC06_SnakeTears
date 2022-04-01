@@ -125,4 +125,11 @@ public class Player_Controller : MonoBehaviour
     {
         return Physics2D.BoxCast(bc.bounds.center, bc.bounds.size * new Vector2(.75f, 1), 0f, Vector2.down, .2f, maskJumpableGround);
     }
+
+    //void OnDrawGizmos()
+    //{
+    //     Draw a semitransparent blue cube at the transforms position
+    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
+    //    Gizmos.DrawCube(bc.bounds.center, bc.bounds.size * new Vector2(.75f, 1));
+    //}
 }
