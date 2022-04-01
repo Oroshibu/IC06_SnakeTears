@@ -3,22 +3,29 @@ using UnityEngine.InputSystem;
 
 public class Player_Controller : MonoBehaviour
 {
-    
+
+    [SerializeField] LayerMask maskJumpableGround;
+
     public float speed = 1f;
     public float jumpVelocity = 1f;
     public float gravityIdle = 1f;
     public float gravityFall = 1f;
+    public float coyoteTime = .5f;
     //public float lowFallMultiplier = 1f;
 
     float directionX;
-    bool grounded;
+    public float coyoteTimeTimer;
     bool jumpPressed;
     bool jumpHeld;
     Rigidbody2D rb;
+    BoxCollider2D bc;
+    Ray_Controller ray;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
+        ray = GetComponentInChildren<Ray_Controller>();
     }
 
     public void Jump(InputAction.CallbackContext ctx)
@@ -39,6 +46,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (ctx.performed)
         {
+
         }
     }
 
@@ -66,6 +74,14 @@ public class Player_Controller : MonoBehaviour
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         }
 
+        if (IsGrounded())
+        {
+            coyoteTimeTimer = coyoteTime;
+        } else
+        {
+            coyoteTimeTimer -= Time.fixedDeltaTime;
+        }
+
         FixedUpdateWalk();
 
         FixedUpdateJump();
@@ -80,25 +96,10 @@ public class Player_Controller : MonoBehaviour
     void FixedUpdateJump()
     {
         // JUMP
-        if (jumpPressed)
+        if (jumpPressed && coyoteTimeTimer > 0)
         {
             rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
             jumpPressed = false;
-            grounded = false;
-        }
-        else
-        {
-            //Vector2 boxCenter = (Vector2)transform.position + Vector2.down * (playerSize.y + boxSize.y) * 0.5f + colliderOffset;
-            ////bool atterissage = grounded;
-            //grounded = Physics2D.OverlapBox(boxCenter, boxSize, 0f, mask) != null; // est ce qu'on détecte qlq chose sous le j
-            //if (grounded)
-            //{
-            //    coyoteJumpTimer = coyoteJumpTime;
-            //    if (atterissage == false) // On vient d'atterrir au sol
-            //    {
-            //        //cameraAnimator.SetTrigger("Shake");
-            //    }
-            //}
         }
 
         //SMOOTHIFICATION DU SAUT
@@ -118,5 +119,10 @@ public class Player_Controller : MonoBehaviour
             //rb.gravityScale = lowFallMultiplier;
         }
 
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(bc.bounds.center, bc.bounds.size * new Vector2(.75f, 1), 0f, Vector2.down, .2f, maskJumpableGround);
     }
 }

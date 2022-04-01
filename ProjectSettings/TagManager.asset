@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - Ground
   - 
   - 
   - 
@@ -41,8 +41,20 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: PropsBack
+    uniqueID: 3615869037
+    locked: 0
+  - name: Ray
+    uniqueID: 734500855
+    locked: 0
+  - name: Ground
+    uniqueID: 2176945883
+    locked: 0
   - name: Player
     uniqueID: 2870941749
+    locked: 0
+  - name: Foreground
+    uniqueID: 1884180933
     locked: 0
   - name: Effritage
     uniqueID: 1459955823
