@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: -1202921755501488733
     second: tile_sol_1
+  - first:
+      213: 6638426009954639064
+    second: tile_sol_2
+  - first:
+      213: -4362813902272891073
+    second: tile_sol_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -158,6 +164,48 @@ TextureImporter:
       bones: []
       spriteID: 3a59eb6690d5e4fe0800000000000000
       internalID: -1202921755501488733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tile_sol_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dc5f0fb84d602c50800000000000000
+      internalID: 6638426009954639064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tile_sol_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3773edfedb2473c0800000000000000
+      internalID: -4362813902272891073
       vertices: []
       indices: 
       edges: []
