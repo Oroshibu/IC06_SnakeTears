@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 8807472943268563231}
   - component: {fileID: 8807472943268563230}
   - component: {fileID: 8807472943268563225}
+  - component: {fileID: 8906987560919649304}
   m_Layer: 7
   m_Name: Tilemap
   m_TagString: Untagged
@@ -155,7 +156,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2118021413
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -226,3 +227,16 @@ CompositeCollider2D:
     m_Paths: []
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0
+--- !u!114 &8906987560919649304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807472943268563301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70521d8a1fb7bd47b8eba603fbfbee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RendererType: 1

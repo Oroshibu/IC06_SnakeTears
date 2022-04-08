@@ -14,6 +14,7 @@ public class Player_Controller : MonoBehaviour
     //public float lowFallMultiplier = 1f;
 
     float directionX;
+    public Vector2 direction { get => new Vector2(directionX, 0); }
     public float coyoteTimeTimer;
     bool jumpPressed;
     bool jumpHeld;

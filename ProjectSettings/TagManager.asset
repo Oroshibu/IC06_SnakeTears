@@ -13,9 +13,9 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
-  - 
-  - 
+  - Passive
+  - Enemy
+  - Stone
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 2176945883
+    locked: 0
+  - name: Entities
+    uniqueID: 4206670287
     locked: 0
   - name: Player
     uniqueID: 2870941749
