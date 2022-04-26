@@ -13,6 +13,8 @@ public class Player_Controller : MonoBehaviour
     public float coyoteTime = .5f;
     //public float lowFallMultiplier = 1f;
 
+    public ParticleSystem ps_dust;
+
     float directionX;
     public Vector2 direction { get => new Vector2(directionX, 0); }
     public float coyoteTimeTimer;
@@ -77,7 +79,11 @@ public class Player_Controller : MonoBehaviour
 
         if (IsGrounded())
         {
-            coyoteTimeTimer = coyoteTime;
+            if (coyoteTimeTimer != coyoteTime)
+            {
+                coyoteTimeTimer = coyoteTime;
+                ps_dust.Play();
+            }
         } else
         {
             coyoteTimeTimer -= Time.fixedDeltaTime;
@@ -99,8 +105,10 @@ public class Player_Controller : MonoBehaviour
         // JUMP
         if (jumpPressed && coyoteTimeTimer > 0)
         {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
             jumpPressed = false;
+            ps_dust.Play();
             coyoteTimeTimer = 0;
         }
 
@@ -117,7 +125,6 @@ public class Player_Controller : MonoBehaviour
         //else if (rb.velocity.y > 0.0001 && (!jump || isAttacking)) // si on est en ascension et qu'on appuie plus sur saut
         if (rb.velocity.y > .000001f && !jumpHeld && coyoteTimeTimer <= -0.15f)
         {
-            Debug.Log("gouga " + coyoteTimeTimer);
             rb.velocity = new Vector2(rb.velocity.x, 0);
             //rb.gravityScale = lowFallMultiplier;
         }
@@ -126,7 +133,7 @@ public class Player_Controller : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x * .75f, .15f), 0f, Vector2.down, .2f, maskJumpableGround);
+        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskJumpableGround);
     }
 
     void OnDrawGizmosSelected()
@@ -134,7 +141,7 @@ public class Player_Controller : MonoBehaviour
         if (Application.isPlaying)
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x * .75f, .15f));
+            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x * .75f, .05f));
         }
     }
 }
