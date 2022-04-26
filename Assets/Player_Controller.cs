@@ -101,6 +101,7 @@ public class Player_Controller : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
             jumpPressed = false;
+            coyoteTimeTimer = 0;
         }
 
         //SMOOTHIFICATION DU SAUT
@@ -124,13 +125,15 @@ public class Player_Controller : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center, bc.bounds.size * new Vector2(.75f, 1), 0f, Vector2.down, .2f, maskJumpableGround);
+        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskJumpableGround);
     }
 
-    //void OnDrawGizmos()
-    //{
-    //     Draw a semitransparent blue cube at the transforms position
-    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
-    //    Gizmos.DrawCube(bc.bounds.center, bc.bounds.size * new Vector2(.75f, 1));
-    //}
+    void OnDrawGizmosSelected()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x * .75f, .05f));
+        }
+    }
 }

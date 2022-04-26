@@ -7,12 +7,17 @@ public class StoneComponent : MonoBehaviour
 {
     public float pushDelay = .5f;
     public float offset = .5f;
+    public float yOffset = .5f;
 
+
+    bool isFalling = false;
     bool isPushed = false;
     Vector2 pushedDirection;
 
     Coroutine pushCoroutineRef;
-    
+    Rigidbody2D rb;
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -53,6 +58,23 @@ public class StoneComponent : MonoBehaviour
             //yield return transform.DOMoveX(Mathf.Round((transform.position.x + pushedDirection.x * offset)/offset)*offset, .5f).WaitForCompletion();
             yield return transform.DOMoveX((transform.position.x + pushedDirection.x * offset), .5f).WaitForCompletion();
 
+        }
+    }
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isFalling)
+        {
+            rb.isKinematic = true;
+            transform.position = new Vector2(transform.position.x, Mathf.Round(transform.position.y - yOffset) + yOffset);
+        } else
+        {
+            rb.isKinematic = false;
         }
     }
 }

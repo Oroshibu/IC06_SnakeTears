@@ -12,6 +12,7 @@ public class SceneColor : MonoBehaviour
 
     public RendererTypeEnum RendererType = RendererTypeEnum.SpriteRenderer;
 
+    [ExecuteInEditMode]
     void Start()
     {
         switch (RendererType)
