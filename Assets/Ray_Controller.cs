@@ -35,14 +35,19 @@ public class Ray_Controller : MonoBehaviour
         return new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
     }
 
+    private void StoneEnemy(GameObject go)
+    {
+        if (Mathf.Sign(this.transform.parent.localScale.x) != Mathf.Sign(go.transform.parent.localScale.x))
+        {
+            //other.gameObject.GetComponentInParent<Enemy_Behavior>().Stone();
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if (Mathf.Sign(this.transform.parent.localScale.x) != Mathf.Sign(other.transform.parent.localScale.x))
-            {
-                //other.gameObject.GetComponentInParent<Enemy_Behavior>().Stone();
-            }
+            StoneEnemy(other.gameObject);
         }
     }
 
@@ -56,9 +61,10 @@ public class Ray_Controller : MonoBehaviour
 
         meshRenderer = GetComponent<MeshRenderer>();
 
+        gameObject.SetActive(false);
     }
 
-    void DrawRays()
+    private void DrawRays()
     {
         Vector3 origin = Vector3.zero;
 
@@ -110,14 +116,7 @@ public class Ray_Controller : MonoBehaviour
 
                 if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
-                    if (Mathf.Sign(this.transform.parent.transform.lossyScale.x) != Mathf.Sign(hit.transform.lossyScale.x))
-                    {
-                        ////Enemy_Behavior enemyScript = hit.transform.gameObject.GetComponentInParent<Enemy_Behavior>();
-                        //if (enemyScript)
-                        //{
-                        //    enemyScript.Stone();
-                        //}
-                    }
+                    StoneEnemy(hit.transform.gameObject);
                 }
 
             }
@@ -202,8 +201,8 @@ public class Ray_Controller : MonoBehaviour
 
     private void OnEnable()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.material.SetFloat("_Opacity", 1);
+        //meshRenderer = GetComponent<MeshRenderer>();
+        //meshRenderer.material.SetFloat("_Opacity", 1);
         fadingTime = 10000f;
         angleSpeedAtm = angleSpeed;
     }
@@ -231,4 +230,15 @@ public class Ray_Controller : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
+
+    public void RayShootStart()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void RayShootStop()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

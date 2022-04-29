@@ -254,8 +254,8 @@ MonoBehaviour:
   gravityIdle: 2.5
   gravityFall: 3
   coyoteTime: 0.2
+  ray: {fileID: 1302329015431725428}
   ps_dust: {fileID: 4069019724586421216}
-  coyoteTimeTimer: 0
 --- !u!1 &4707750240008460113
 GameObject:
   m_ObjectHideFlags: 0
@@ -5204,7 +5204,7 @@ MonoBehaviour:
   startAngle: -25
   endAngle: 25
   raysCount: 100
-  raysLengthMax: 10
+  raysLengthMax: 30
   raysSpeed: 1.42
   angleSpeed: 2
 --- !u!33 &3886972478128227546

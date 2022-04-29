@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,29 +7,49 @@ public class Player_Controller : MonoBehaviour
 
     [SerializeField] LayerMask maskJumpableGround;
 
+    [Header("Movement")]
     public float speed = 1f;
     public float jumpVelocity = 1f;
     public float gravityIdle = 1f;
     public float gravityFall = 1f;
     public float coyoteTime = .5f;
-    //public float lowFallMultiplier = 1f;
+
+    [Header("Attack")]
+    public float attackCooldown = .25f;
+
+    [Header("References")]
+    public Ray_Controller ray;
+
 
     public ParticleSystem ps_dust;
 
     float directionX;
     public Vector2 direction { get => new Vector2(directionX, 0); }
-    public float coyoteTimeTimer;
+    float coyoteTimeTimer;
     bool jumpPressed;
     bool jumpHeld;
+    bool isAttacking;
+    bool canAttack = true;
+    bool canMove = true;
     Rigidbody2D rb;
     BoxCollider2D bc;
-    Ray_Controller ray;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
-        ray = GetComponentInChildren<Ray_Controller>();
+    }
+
+    public void Move(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            directionX = ctx.ReadValue<Vector2>().x;
+        }
+        else if (ctx.canceled)
+        {
+            directionX = 0;
+        }
     }
 
     public void Jump(InputAction.CallbackContext ctx)
@@ -49,33 +70,59 @@ public class Player_Controller : MonoBehaviour
     {
         if (ctx.performed)
         {
+            if (!isAttacking && canAttack)
+            {
+                StartCoroutine(AttackCoroutine());
+            }
 
         }
     }
 
-    public void Move(InputAction.CallbackContext ctx)
+    IEnumerator AttackCoroutine()
     {
-        if (ctx.performed)
-        {
-            directionX = ctx.ReadValue<Vector2>().x;
-        }
-        else if (ctx.canceled)
-        {
-            directionX = 0;
-        }
+        canAttack = false;
+        isAttacking = true;
+        MovementLock();
+        rb.isKinematic = true;
+        Camera_Manager.i.Shake();
+        Camera_Manager.i.RayCameraEffect(1, .1f);
+        ray.RayShootStart();
+        yield return new WaitForSeconds(1);
+        ray.RayShootStop();
+        Camera_Manager.i.RayCameraEffect(0, .25f);
+        rb.isKinematic = false;
+        MovementUnlock();
+        isAttacking = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
+    public void MovementLock()
+    {
+        canMove = false;
+        rb.velocity = Vector2.zero;
+    }
+
+    public void MovementUnlock()
+    {
+        canMove = true;
     }
 
     private void FixedUpdate()
     {
         //FLIP PLAYER
-        if (directionX < 0)
+        if (canMove)
         {
-            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            if (directionX < 0)
+            {
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            }
+            else if (directionX > 0)
+            {
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            }
         }
-        else if (directionX > 0)
-        {
-            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-        }
+
 
         if (IsGrounded())
         {
@@ -97,19 +144,28 @@ public class Player_Controller : MonoBehaviour
     void FixedUpdateWalk()
     {
         // WALK
-        rb.velocity = new Vector2(directionX * speed, rb.velocity.y);
+        if (canMove)
+        {
+            rb.velocity = new Vector2(directionX * speed, rb.velocity.y);
+        } else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
     }
 
     void FixedUpdateJump()
     {
         // JUMP
-        if (jumpPressed && coyoteTimeTimer > 0)
+        if (canMove)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
-            jumpPressed = false;
-            ps_dust.Play();
-            coyoteTimeTimer = 0;
+            if (jumpPressed && coyoteTimeTimer > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+                jumpPressed = false;
+                ps_dust.Play();
+                coyoteTimeTimer = 0;
+            }
         }
 
         //SMOOTHIFICATION DU SAUT
@@ -123,10 +179,9 @@ public class Player_Controller : MonoBehaviour
         }
 
         //else if (rb.velocity.y > 0.0001 && (!jump || isAttacking)) // si on est en ascension et qu'on appuie plus sur saut
-        if (rb.velocity.y > .000001f && !jumpHeld && coyoteTimeTimer <= -0.15f)
+        if (rb.velocity.y > .000001f && !jumpHeld && coyoteTimeTimer <= -0.15f && canMove)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
-            //rb.gravityScale = lowFallMultiplier;
         }
 
     }
