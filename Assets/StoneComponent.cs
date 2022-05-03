@@ -5,9 +5,10 @@ using DG.Tweening;
 
 public class StoneComponent : MonoBehaviour
 {
-    public float pushDelay = .5f;
-    public float offset = .5f;
-    public float yOffset = .5f;
+    public float pushDelay = .25f;
+    public float pushXStep = 1;    
+    public float snapYStep = .5f;
+    public Vector2 offset;
 
 
     bool isFalling = false;
@@ -23,17 +24,11 @@ public class StoneComponent : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            var vec = (Vector2)collision.transform.position - (Vector2)transform.position; ;
+            var vec = (Vector2)collision.transform.position - (Vector2)transform.position;
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {
                 pushedDirection = collision.gameObject.GetComponent<Player_Controller>().direction.normalized;
-                print(pushedDirection);
-                isPushed = true;
-                if (pushCoroutineRef != null)
-                {
-                    StopCoroutine(pushCoroutineRef);
-                }
-                pushCoroutineRef = StartCoroutine(pushCoroutine());
+                StartPush();
             }
         }
     }
@@ -42,9 +37,27 @@ public class StoneComponent : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (isPushed)
+            StopPush();
+        }
+    }
+
+    void StartPush()
+    {
+        isPushed = true;
+        if (pushCoroutineRef != null)
+        {
+            StopCoroutine(pushCoroutineRef);
+        }
+        pushCoroutineRef = StartCoroutine(pushCoroutine());
+    }
+
+    void StopPush()
+    {
+        if (isPushed)
+        {
+            isPushed = false;
+            if (pushCoroutineRef != null)
             {
-                isPushed = false;
                 StopCoroutine(pushCoroutineRef);
             }
         }
@@ -52,11 +65,11 @@ public class StoneComponent : MonoBehaviour
 
     IEnumerator pushCoroutine()
     {
-        while (isPushed)
+        while (isPushed && !isFalling)
         {
             yield return new WaitForSeconds(pushDelay);
             //yield return transform.DOMoveX(Mathf.Round((transform.position.x + pushedDirection.x * offset)/offset)*offset, .5f).WaitForCompletion();
-            yield return transform.DOMoveX((transform.position.x + pushedDirection.x * offset), .5f).WaitForCompletion();
+            yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .5f).WaitForCompletion();
 
         }
     }
@@ -68,10 +81,19 @@ public class StoneComponent : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.velocity.y < -.01f)
+        {
+            isFalling = true;
+            StopPush();
+        } else
+        {
+            isFalling = false;
+        }
+
         if (!isFalling)
         {
             //rb.isKinematic = true;
-            transform.position = new Vector2(transform.position.x, Mathf.Round(transform.position.y - yOffset) + yOffset);
+            transform.position = new Vector2(transform.position.x, Mathf.Round((transform.position.y - offset.y)/snapYStep)*snapYStep + offset.y);
         } else
         {
             //rb.isKinematic = false;
