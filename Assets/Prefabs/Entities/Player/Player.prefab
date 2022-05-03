@@ -254,6 +254,7 @@ MonoBehaviour:
   gravityIdle: 2.5
   gravityFall: 3
   coyoteTime: 0.2
+  attackCooldown: 0.25
   ray: {fileID: 1302329015431725428}
   ps_dust: {fileID: 4069019724586421216}
 --- !u!1 &4707750240008460113
@@ -5200,7 +5201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1920
   startAngle: -25
   endAngle: 25
   raysCount: 100

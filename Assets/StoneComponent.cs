@@ -70,11 +70,11 @@ public class StoneComponent : MonoBehaviour
     {
         if (!isFalling)
         {
-            rb.isKinematic = true;
+            //rb.isKinematic = true;
             transform.position = new Vector2(transform.position.x, Mathf.Round(transform.position.y - yOffset) + yOffset);
         } else
         {
-            rb.isKinematic = false;
+            //rb.isKinematic = false;
         }
     }
 }
