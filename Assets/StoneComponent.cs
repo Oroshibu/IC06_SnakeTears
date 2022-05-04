@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class StoneComponent : MonoBehaviour
 {
+    [SerializeField] LayerMask maskGround;
+
     public float pushDelay = .25f;
     public float pushXStep = 1;    
     public float snapYStep = .5f;
@@ -17,6 +19,7 @@ public class StoneComponent : MonoBehaviour
 
     Coroutine pushCoroutineRef;
     Rigidbody2D rb;
+    BoxCollider2D bc;
 
 
 
@@ -77,6 +80,7 @@ public class StoneComponent : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
     }
 
     private void FixedUpdate()
@@ -90,13 +94,28 @@ public class StoneComponent : MonoBehaviour
             isFalling = false;
         }
 
-        if (!isFalling)
+        //if (!isFalling)
+        if (IsGrounded() && !isFalling)
         {
-            //rb.isKinematic = true;
+            rb.isKinematic = true;
             transform.position = new Vector2(transform.position.x, Mathf.Round((transform.position.y - offset.y)/snapYStep)*snapYStep + offset.y);
         } else
         {
-            //rb.isKinematic = false;
+            rb.isKinematic = false;
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + +.25f), new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskGround);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = new Color(1, 0, 0, 0.5f);
+            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + .25f), new Vector2(bc.bounds.size.x * .75f, .05f));
         }
     }
 }
