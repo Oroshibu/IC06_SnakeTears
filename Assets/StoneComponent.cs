@@ -11,6 +11,7 @@ public class StoneComponent : MonoBehaviour
     public float pushXStep = 1;    
     public float snapYStep = .5f;
     public Vector2 offset;
+    public Vector2 boxColliderWidths;
 
 
     bool isFalling = false;
@@ -20,6 +21,7 @@ public class StoneComponent : MonoBehaviour
     Coroutine pushCoroutineRef;
     Rigidbody2D rb;
     BoxCollider2D bc;
+    public Network_Companion network;
 
 
 
@@ -72,7 +74,7 @@ public class StoneComponent : MonoBehaviour
         {
             yield return new WaitForSeconds(pushDelay);
             //yield return transform.DOMoveX(Mathf.Round((transform.position.x + pushedDirection.x * offset)/offset)*offset, .5f).WaitForCompletion();
-            yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .5f).WaitForCompletion();
+            yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .4f).WaitForCompletion();
 
         }
     }
@@ -81,6 +83,7 @@ public class StoneComponent : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        network = GetComponentInChildren<Network_Companion>();
     }
 
     private void FixedUpdate()
@@ -99,9 +102,11 @@ public class StoneComponent : MonoBehaviour
         {
             rb.isKinematic = true;
             transform.position = new Vector2(transform.position.x, Mathf.Round((transform.position.y - offset.y)/snapYStep)*snapYStep + offset.y);
+            GetComponent<BoxCollider2D>().size = new Vector2(boxColliderWidths.y, 1f);
         } else
         {
             rb.isKinematic = false;
+            GetComponent<BoxCollider2D>().size = new Vector2(boxColliderWidths.x, 1f);
         }
     }
 
