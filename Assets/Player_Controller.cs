@@ -140,9 +140,7 @@ public class Player_Controller : MonoBehaviour
                 ps_dust.Play();
             }
 
-            Debug.Log("GOUJIGUS");
-            //transform.position = new Vector2(transform.position.x, Mathf.Sign(transform.position.y) * Mathf.FloorToInt(Mathf.Sign(transform.position.y) * transform.position.y*100)/100f);
-            transform.position = new Vector2(transform.position.x, Mathf.RoundToInt(transform.position.y * 50) / 50f);
+            transform.position = new Vector2(transform.position.x, Mathf.RoundToInt(transform.position.y * 25) / 25f);
         } else
         {
             coyoteTimeTimer -= Time.fixedDeltaTime;
