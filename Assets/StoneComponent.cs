@@ -7,12 +7,15 @@ public class StoneComponent : MonoBehaviour
 {
     [SerializeField] LayerMask maskGround;
 
+    [Header("Physics")]
     public float pushDelay = .25f;
     public float pushXStep = 1;    
     public float snapYStep = .5f;
     public Vector2 offset;
     public Vector2 boxColliderWidths;
 
+    [Header("Network")]
+    public Network_Interface network;
 
     bool isFalling = false;
     bool isPushed = false;
@@ -21,9 +24,6 @@ public class StoneComponent : MonoBehaviour
     Coroutine pushCoroutineRef;
     Rigidbody2D rb;
     BoxCollider2D bc;
-    public Network_Companion network;
-
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -73,9 +73,11 @@ public class StoneComponent : MonoBehaviour
         while (isPushed && !isFalling)
         {
             yield return new WaitForSeconds(pushDelay);
-            //yield return transform.DOMoveX(Mathf.Round((transform.position.x + pushedDirection.x * offset)/offset)*offset, .5f).WaitForCompletion();
-            yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .4f).WaitForCompletion();
-
+            var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+            if (!network.IsWallInNetworkDirection(pushedDirectionEnum))
+            {
+                yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .4f).WaitForCompletion();
+            }
         }
     }
 
@@ -83,7 +85,6 @@ public class StoneComponent : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
-        network = GetComponentInChildren<Network_Companion>();
     }
 
     private void FixedUpdate()
