@@ -33,7 +33,12 @@ public class StoneComponent : MonoBehaviour
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {
                 pushedDirection = collision.gameObject.GetComponent<Player_Controller>().direction.normalized;
-                StartPush();
+                StartPush(pushedDirection.x);
+                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+                foreach(var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                {
+                    stone.StartPush(pushedDirection.x);
+                }
             }
         }
     }
@@ -43,20 +48,30 @@ public class StoneComponent : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             StopPush();
+            var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+            foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+            {
+                stone.StopPush();
+            }
         }
     }
 
-    void StartPush()
+    public void StartPush(float pushDirectionX)
     {
         isPushed = true;
         if (pushCoroutineRef != null)
         {
             StopCoroutine(pushCoroutineRef);
         }
-        pushCoroutineRef = StartCoroutine(pushCoroutine());
+        pushCoroutineRef = StartCoroutine(pushCoroutine(pushDirectionX));
+
+        foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
+        {
+            stone.StartPush(pushDirectionX);
+        }
     }
 
-    void StopPush()
+    public void StopPush()
     {
         if (isPushed)
         {
@@ -66,17 +81,22 @@ public class StoneComponent : MonoBehaviour
                 StopCoroutine(pushCoroutineRef);
             }
         }
+
+        foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
+        {
+            stone.StopPush();
+        }
     }
 
-    IEnumerator pushCoroutine()
+    IEnumerator pushCoroutine(float pushDirectionX)
     {
         while (isPushed && !isFalling)
         {
             yield return new WaitForSeconds(pushDelay);
-            var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+            var pushedDirectionEnum = pushDirectionX > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
             if (!network.IsWallInNetworkDirection(pushedDirectionEnum))
             {
-                yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushedDirection.x * pushXStep) + offset.x, .4f).WaitForCompletion();
+                yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x, .4f).WaitForCompletion();
             }
         }
     }

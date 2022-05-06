@@ -34,6 +34,19 @@ public class Network_Interface : MonoBehaviour
         }
     }
 
+    public List<StoneComponent> GetExtendedStoneNetwork(Direction direction)
+    {
+        var retList = new List<StoneComponent>();
+        var obj = GetNetwork(direction);
+        if (obj != null && obj.CompareTag("Stone"))
+        {
+            var stoneComponent = obj.GetComponent<StoneComponent>();
+            retList.Add(stoneComponent);
+            retList.AddRange(stoneComponent.network.GetExtendedStoneNetwork(direction));
+        }
+        return retList;
+    }
+
     public List<string> GetExtendedNetwork(Direction direction)
     {
         var retList = new List<string>();

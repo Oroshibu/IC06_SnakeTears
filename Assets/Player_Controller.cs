@@ -78,6 +78,14 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+    public void Restart(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Scene_Manager.i.ReloadScene();
+        }
+    }
+
     IEnumerator AttackCoroutine()
     {
         canAttack = false;
@@ -131,6 +139,10 @@ public class Player_Controller : MonoBehaviour
                 coyoteTimeTimer = coyoteTime;
                 ps_dust.Play();
             }
+
+            Debug.Log("GOUJIGUS");
+            //transform.position = new Vector2(transform.position.x, Mathf.Sign(transform.position.y) * Mathf.FloorToInt(Mathf.Sign(transform.position.y) * transform.position.y*100)/100f);
+            transform.position = new Vector2(transform.position.x, Mathf.RoundToInt(transform.position.y * 50) / 50f);
         } else
         {
             coyoteTimeTimer -= Time.fixedDeltaTime;

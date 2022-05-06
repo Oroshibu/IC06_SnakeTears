@@ -11132,6 +11132,7 @@ GameObject:
   - component: {fileID: 8807472943268563230}
   - component: {fileID: 8807472943268563225}
   - component: {fileID: 8906987560919649304}
+  - component: {fileID: 388077114854839618}
   m_Layer: 7
   m_Name: Tilemap
   m_TagString: Ground
@@ -11313,3 +11314,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RendererType: 1
+--- !u!114 &388077114854839618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807472943268563301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 335616d24c0e19d4f86f380145c62efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
