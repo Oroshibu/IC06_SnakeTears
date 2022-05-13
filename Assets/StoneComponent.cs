@@ -116,7 +116,22 @@ public class StoneComponent : MonoBehaviour
             var pushedDirectionEnum = pushDirectionX > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
             if (!network.IsWallInNetworkDirection(pushedDirectionEnum))
             {
-                yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x, .4f).WaitForCompletion();
+                float endValue;
+                if (pushDirectionX >= 0)
+                {
+                    endValue = Mathf.Floor(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
+                } else
+                {
+                    endValue = Mathf.Ceil(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
+                }
+                //yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x, .4f).WaitForCompletion();
+                yield return transform.DOMoveX(endValue, .4f).WaitForCompletion();
+            }
+
+            //Stone can push new stone on reset
+            foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+            {
+                stone.StartPush(pushedDirection.x);
             }
         }
     }
