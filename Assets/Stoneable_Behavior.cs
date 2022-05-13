@@ -73,6 +73,8 @@ public class Stoneable_Behavior : MonoBehaviour
         //mainState.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         stoneStates[stoneState].SetActive(true);
         stonedDurationCounting = stonedDuration;
+
+        stoneStates[stoneState].GetComponent<StoneComponent>().SnapToClosestX();
     }
 
     public void Unstone()
