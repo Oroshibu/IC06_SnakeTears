@@ -43,6 +43,26 @@ public class StoneComponent : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            var playerVelocity = collision.gameObject.GetComponent<Player_Controller>().direction.normalized;
+            if (isPushed && playerVelocity.x == 0)
+            {
+                StopPush();
+                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                {
+                    stone.StopPush();
+                }
+            } else if (!isPushed && playerVelocity.x != 0)
+            {
+                OnCollisionEnter2D(collision);
+            }
+        }
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
