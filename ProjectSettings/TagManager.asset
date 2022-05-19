@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stone
   - Ground
+  - Win
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Enemy
   - Stone
   - Network
-  - 
+  - Win
   - 
   - 
   - 
@@ -63,6 +64,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1884180933
+    locked: 0
+  - name: Effects2
+    uniqueID: 117434287
     locked: 0
   - name: Effritage
     uniqueID: 1459955823
