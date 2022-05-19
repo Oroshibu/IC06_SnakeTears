@@ -268,7 +268,7 @@ MonoBehaviour:
   jumpVelocity: 1200
   gravityIdle: 2.5
   gravityFall: 3
-  coyoteTime: 0.2
+  coyoteTime: 0.1
   attackCooldown: 0.25
   ray: {fileID: 1302329015431725428}
   ps_dust: {fileID: 4069019724586421216}

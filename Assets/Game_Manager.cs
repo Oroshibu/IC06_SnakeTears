@@ -27,17 +27,70 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    [HideInInspector] public Player_Controller player;
+
+    private void Start()
     {
-        Transition_Manager.i.TransitionIn();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Controller>();
+
+        StartCoroutine(Transition_Manager.i.TransitionIn(player.transform.position, exitTimes: 0));
+    }
+
+    public void LockControls()
+    {
+        player.LockControls();
+    }
+
+    public void UnlockControls()
+    {
+        player.UnlockControls();
+    }
+
+    public void LockMovement()
+    {
+        player.LockMovement();
+    }
+
+    public void UnlockMovement()
+    {
+        player.UnlockMovement();
+    }
+
+    public void LockPlayer()
+    {
+        player.LockControls();
+        player.LockMovement();
+    }
+
+    public void UnlockPlayer()
+    {
+        player.UnlockControls();
+        player.UnlockMovement();
     }
 
 
     public void Win()
     {
-        //THIS LEVEL WON
-        Debug.Log("Win");
+        StartCoroutine(WinCoroutine());
+    }
 
-        //LAUNCH TRANSITION TO NEXT LEVEL
+    IEnumerator WinCoroutine()
+    {
+        LockControls();
+        yield return new WaitForSeconds(1.5f);
+        yield return Transition_Manager.i.TransitionOut(player.transform.position);
+        Scene_Manager.i.NextScene();
+    }
+
+    public void Restart()
+    {
+        StartCoroutine(RestartCoroutine());
+    }
+
+    IEnumerator RestartCoroutine()
+    {
+        LockPlayer();
+        yield return Transition_Manager.i.TransitionOut(player.transform.position, .5f, 0);
+        Scene_Manager.i.ReloadScene();
     }
 }

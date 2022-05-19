@@ -33,4 +33,10 @@ public class Scene_Manager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void NextScene()
+    {
+        //TODO +1
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

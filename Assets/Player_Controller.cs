@@ -31,6 +31,7 @@ public class Player_Controller : MonoBehaviour
     bool isAttacking;
     bool canAttack = true;
     bool canMove = true;
+    bool controlsLocked = false;
     Rigidbody2D rb;
     BoxCollider2D bc;
 
@@ -42,7 +43,7 @@ public class Player_Controller : MonoBehaviour
 
     public void Move(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && !controlsLocked)
         {
             directionX = ctx.ReadValue<Vector2>().x;
         }
@@ -54,7 +55,7 @@ public class Player_Controller : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && !controlsLocked)
         {
             jumpPressed = true;
             jumpHeld = true;
@@ -68,7 +69,7 @@ public class Player_Controller : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && !controlsLocked)
         {
             if (!isAttacking && canAttack)
             {
@@ -80,9 +81,9 @@ public class Player_Controller : MonoBehaviour
 
     public void Restart(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && !controlsLocked)
         {
-            Scene_Manager.i.ReloadScene();
+            Game_Manager.i.Restart();
         }
     }
 
@@ -90,30 +91,43 @@ public class Player_Controller : MonoBehaviour
     {
         canAttack = false;
         isAttacking = true;
-        MovementLock();
-        rb.isKinematic = true;
+        LockMovement();
         Camera_Manager.i.Shake();
         Camera_Manager.i.RayCameraEffect(1, .1f);
         ray.RayShootStart();
         yield return new WaitForSeconds(1);
         ray.RayShootStop();
         Camera_Manager.i.RayCameraEffect(0, .25f);
-        rb.isKinematic = false;
-        MovementUnlock();
+        UnlockMovement();
         isAttacking = false;
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
 
-    public void MovementLock()
+    public void LockMovement()
     {
+        canMove = false;
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+    }
+
+    public void UnlockMovement()
+    {
+        canMove = true;
+        rb.isKinematic = false;
+    }
+
+    public void LockControls()
+    {
+        controlsLocked = true;
         canMove = false;
         rb.velocity = Vector2.zero;
     }
 
-    public void MovementUnlock()
+    public void UnlockControls()
     {
         canMove = true;
+        controlsLocked = false;
     }
 
     private void FixedUpdate()
