@@ -27,6 +27,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4e5f3fac762c9e147a922085e5e29848, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_99dd8d0b506145aa8ef9e94f89d64cab_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 4e5f3fac762c9e147a922085e5e29848, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
