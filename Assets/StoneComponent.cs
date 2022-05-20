@@ -228,4 +228,14 @@ public class StoneComponent : MonoBehaviour
             Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + .25f), new Vector2(bc.bounds.size.x * .75f, .05f));
         }
     }
+
+    public bool IsFalling()
+    {
+        return isFalling;
+    }
+
+    public void ResetFallingVelocity()
+    {
+        rb.velocity = new Vector2(0, -0.05f);
+    }
 }

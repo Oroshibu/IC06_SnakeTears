@@ -8,7 +8,8 @@ public class SceneColor : MonoBehaviour
     {
         SpriteRenderer,
         Tilemap,
-        Camera
+        Camera,
+        ParticleSystem
     }
 
     public RendererTypeEnum RendererType = RendererTypeEnum.SpriteRenderer;
@@ -25,6 +26,10 @@ public class SceneColor : MonoBehaviour
                 break;
             case RendererTypeEnum.Camera:
                 GetComponent<Camera>().backgroundColor = Mood_Manager.i.sceneColor;
+                break;
+            case RendererTypeEnum.ParticleSystem:
+                var mainInterface = GetComponent<ParticleSystem>().main;
+                mainInterface.startColor = Mood_Manager.i.sceneColor;
                 break;
         }
         
