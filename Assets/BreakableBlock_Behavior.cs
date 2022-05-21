@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BreakableBlock_Behavior : MonoBehaviour
 {
-    [SerializeField] ParticleSystem ps;
+    [SerializeField] GameObject ps;
     private Tilemap_Behavior tilemap;
 
     private void Start()
@@ -25,12 +25,14 @@ public class BreakableBlock_Behavior : MonoBehaviour
         }
     }
 
-    private IEnumerator BreakCoroutine()
+    IEnumerator BreakCoroutine()
     {
-        ps.Play();
-        Camera_Manager.i.Shake(.5f,.15f);
+        var instance = Instantiate(ps, transform.position, transform.rotation);
+        Destroy(instance.gameObject, 5);
+        
+        Camera_Manager.i.Shake(.5f, .15f);
+        
+        yield return new WaitForEndOfFrame();
         tilemap.EraseTileAt(transform.position);
-        yield return new WaitForSeconds(5f);
-        Destroy(gameObject);
     }
 }
