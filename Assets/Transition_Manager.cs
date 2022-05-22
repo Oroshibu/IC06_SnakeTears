@@ -14,7 +14,7 @@ public class Transition_Manager : MonoBehaviour
     public Image transiFlatImage;
 
     private int maxScale = 7500;
-    private Tween transiTween;
+    private Sequence transiTween;
 
     public static Transition_Manager i
     {
@@ -43,7 +43,7 @@ public class Transition_Manager : MonoBehaviour
         transiFlatImage.rectTransform.anchoredPosition = Vector2.zero;
 
         maskImage.rectTransform.sizeDelta = Vector2.zero;
-        yield return TransitionAnim(maxScale, duration, Ease.InQuart, exitTimes: exitTimes);
+        yield return TransitionAnim(1, duration, Ease.InQuart, exitTimes: exitTimes);
     }
 
     public IEnumerator TransitionIn(Vector2 worldPos, float duration = 1, float exitTimes = .5f)
@@ -54,7 +54,7 @@ public class Transition_Manager : MonoBehaviour
         transiFlatImage.rectTransform.anchoredPosition = -anchoredPosition;
 
         maskImage.rectTransform.sizeDelta = Vector2.zero;
-        yield return TransitionAnim(maxScale, duration, Ease.InQuart, exitTimes: exitTimes);
+        yield return TransitionAnim(1, duration, Ease.InQuart, exitTimes: exitTimes);
     }
 
     public IEnumerator TransitionOut(float duration = 2, float exitTimes = .5f)
@@ -77,7 +77,7 @@ public class Transition_Manager : MonoBehaviour
         yield return TransitionAnim(0, duration, exitTimes: exitTimes);
     }
 
-    private IEnumerator TransitionAnim(float size = 7500, float duration = 2, Ease ease = Ease.Linear, float exitTimes = .5f)
+    private IEnumerator TransitionAnim(float sizeMult = 1, float duration = 2, Ease ease = Ease.Linear, float exitTimes = .5f)
     {
         yield return new WaitForSeconds(exitTimes);
         if (transiTween!= null && transiTween.IsPlaying())
@@ -85,7 +85,12 @@ public class Transition_Manager : MonoBehaviour
             transiTween.Kill();
             transiTween = null;
         }
-        transiTween = DOTween.To(() => maskImage.rectTransform.sizeDelta, x => maskImage.rectTransform.sizeDelta = x, Vector2.one * size, duration).SetEase(ease).OnKill(() => transiTween = null);
+
+        transiTween = DOTween.Sequence();
+        transiTween.Append(maskImage.rectTransform.DOSizeDelta(Vector2.one * sizeMult * maxScale, duration).SetEase(ease));
+        transiTween.Insert(duration/2, transiFlatImage.DOFade(sizeMult == 1 ? 0 : 1, duration/2).SetEase(ease));
+        transiTween.OnKill(() => transiTween = null);
+
         yield return transiTween.WaitForCompletion();
         yield return new WaitForSeconds(exitTimes);
     }
