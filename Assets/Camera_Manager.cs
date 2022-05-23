@@ -62,8 +62,8 @@ public class Camera_Manager : MonoBehaviour
         }
         BoundsInt actualBounds = new BoundsInt(actualBoundsMin, actualBoundsMax - actualBoundsMin + Vector3Int.one);
 
-        Vector2Int emptyBoundMin = Vector2Int.zero;
-        Vector2Int emptyBoundMax = Vector2Int.zero;
+        Vector2Int emptyBoundMin = (Vector2Int)actualBounds.max;
+        Vector2Int emptyBoundMax = (Vector2Int)actualBounds.min;
 
         foreach (var i in actualBounds.allPositionsWithin)
         {
@@ -90,8 +90,10 @@ public class Camera_Manager : MonoBehaviour
 
         tilemap.SetTile(new Vector3Int(emptyBoundMax.x, emptyBoundMax.y, 0), null);
 
-        Vector2 cornerTopLeftWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMin - Vector3Int.one * 2);
-        Vector2 cornerBottomRightWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMax + Vector3Int.one * 3);
+        //Vector2 cornerTopLeftWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMin - Vector3Int.one * 2);
+        //Vector2 cornerBottomRightWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMax + Vector3Int.one * 3);
+        cornerTopLeftWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMin - Vector3Int.one * 2);
+        cornerBottomRightWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMax + Vector3Int.one * 3);
 
         FocusCam(cornerTopLeftWorld, cornerBottomRightWorld);
     }
@@ -106,10 +108,13 @@ public class Camera_Manager : MonoBehaviour
         cameraObj.orthographicSize = ((size.x > size.y * cameraObj.aspect) ? (float)size.x / (float)cameraObj.pixelWidth * cameraObj.pixelHeight : size.y) / 2;
     }
 
-    //void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = new Color(1, 0, 0, 0.5f);
-    //    Gizmos.DrawCube((cornerTopLeftWorld + cornerBottomRightWorld)/2, cornerBottomRightWorld - cornerTopLeftWorld);
-    //}
+    Vector2 cornerTopLeftWorld;
+    Vector2 cornerBottomRightWorld;
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawCube((cornerTopLeftWorld + cornerBottomRightWorld) / 2, cornerBottomRightWorld - cornerTopLeftWorld);
+    }
 }
 

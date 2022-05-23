@@ -5154,11 +5154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mask:
     serializedVersion: 2
-    m_Bits: 1920
-  startAngle: -25
-  endAngle: 25
+    m_Bits: 896
+  startAngle: -20
+  endAngle: 20
   raysCount: 100
-  raysLengthMax: 30
+  raysLengthMax: 12
   raysSpeed: 1.42
   angleSpeed: 2
 --- !u!33 &3886972478128227546
