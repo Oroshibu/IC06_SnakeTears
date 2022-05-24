@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LDtkUnity;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class Mood_Manager : MonoBehaviour
 {
     //Singletion Pattern
@@ -22,6 +23,7 @@ public class Mood_Manager : MonoBehaviour
         if (_i == null)
         {
             _i = this;
+            GetLevelColor();
         } else
         {
             Destroy(gameObject);
@@ -29,5 +31,19 @@ public class Mood_Manager : MonoBehaviour
     }
 
     public Color sceneColor;
+
+    private void Start()
+    {
+        GetLevelColor();
+    }
+
+    private void GetLevelColor()
+    {
+        var levelComponent = FindObjectOfType<LDtkComponentLevel>();
+        if (levelComponent != null)
+        {
+            sceneColor = FindObjectOfType<LDtkComponentLevel>().BgColor;
+        }
+    }
 
 }

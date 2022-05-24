@@ -37,7 +37,8 @@ public class Ray_Controller : MonoBehaviour
 
     private void StoneEnemy(GameObject go)
     {
-        if (Mathf.Sign(this.transform.parent.localScale.x) != Mathf.Sign(go.transform.parent.localScale.x))
+        //if (Mathf.Sign(this.transform.parent.localScale.x) != Mathf.Sign(go.transform.parent.localScale.x))
+        if (Mathf.Sign(this.transform.parent.lossyScale.x) != Mathf.Sign(go.transform.lossyScale.x))
         {
             go.gameObject.GetComponentInParent<Stoneable_Behavior>().Stone();
         }

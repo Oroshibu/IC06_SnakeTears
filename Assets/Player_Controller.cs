@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Player_Controller : MonoBehaviour
 {
-
+    [SerializeField] GameObject selfPrefab;
     [SerializeField] LayerMask maskGround;
 
     [Header("Movement")]

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class SceneColor : MonoBehaviour
 {
     public enum RendererTypeEnum
@@ -9,7 +9,8 @@ public class SceneColor : MonoBehaviour
         SpriteRenderer,
         Tilemap,
         Camera,
-        ParticleSystem
+        ParticleSystem,
+        Shader
     }
 
     public RendererTypeEnum RendererType = RendererTypeEnum.SpriteRenderer;
@@ -30,6 +31,9 @@ public class SceneColor : MonoBehaviour
             case RendererTypeEnum.ParticleSystem:
                 var mainInterface = GetComponent<ParticleSystem>().main;
                 mainInterface.startColor = Mood_Manager.i.sceneColor;
+                break;
+            case RendererTypeEnum.Shader:
+                GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", Mood_Manager.i.sceneColor);
                 break;
         }
         

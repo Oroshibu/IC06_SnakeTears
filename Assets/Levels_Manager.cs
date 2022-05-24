@@ -5,6 +5,7 @@ using UnityEngine;
 public class Levels_Manager : MonoBehaviour
 {
     private static Levels_Manager _i;
+    public int levelID = 0;
 
     public static Levels_Manager i { 
         get 
@@ -18,8 +19,6 @@ public class Levels_Manager : MonoBehaviour
             }            
         } 
     }
-
-    private int actualLevelID = 0;
 
     private void Awake()
     {
@@ -36,7 +35,7 @@ public class Levels_Manager : MonoBehaviour
 
     public void StartGame()
     {
-        actualLevelID = 0;
+        levelID = 0;
     }
 
 }

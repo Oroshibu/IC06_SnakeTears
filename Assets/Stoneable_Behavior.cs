@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using LDtkUnity;
 
-public class Stoneable_Behavior : MonoBehaviour
+public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
 {
     [SerializeField] GameObject mainState;
     [SerializeField] List<GameObject> stoneStates;
@@ -21,6 +22,29 @@ public class Stoneable_Behavior : MonoBehaviour
     {
         isStone = false;
         //isTransforming = false;
+    }
+
+    public void OnLDtkImportFields(LDtkFields fields)
+    {
+        if (fields.GetBool("flip"))
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if (fields.GetBool("isStone"))
+        {
+            mainState.SetActive(false);
+            stoneStates[stoneState].SetActive(true);
+        }
+        else
+        {
+            mainState.SetActive(true);
+            stoneStates[stoneState].SetActive(false);
+        }
     }
 
     void FixedUpdate()
