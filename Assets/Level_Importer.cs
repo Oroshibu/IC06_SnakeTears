@@ -12,8 +12,18 @@ public class Level_Importer : MonoBehaviour
     private void Awake()
     {
         int levelID = Levels_Manager.i.levelID;
-        Transform world = Instantiate(level.transform.GetChild(0).GetChild(levelID)).transform;
-        world.position = new Vector3(0, world.position.y, 0);
+
+        //sort level children by their x position
+        List<Transform> levelChildren = new List<Transform>();
+        foreach (Transform child in level.transform.GetChild(0).transform)
+        {
+            levelChildren.Add(child);
+        }
+        levelChildren.Sort((a, b) => a.position.x.CompareTo(b.position.x));
+
+        Transform levelInstance = Instantiate(levelChildren[levelID].gameObject, transform.position, transform.rotation).transform;
+        //Transform world = Instantiate(level.transform.GetChild(0).GetChild(levelID)).transform;
+        levelInstance.position = new Vector3(0, levelInstance.position.y, 0);
     }
 }
         
