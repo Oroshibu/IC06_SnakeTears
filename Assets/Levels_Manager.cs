@@ -38,4 +38,9 @@ public class Levels_Manager : MonoBehaviour
         levelID = 0;
     }
 
+    public void NextLevel()
+    {
+        levelID += 1;
+    }
+
 }
