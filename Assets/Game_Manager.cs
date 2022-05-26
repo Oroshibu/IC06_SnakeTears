@@ -29,6 +29,11 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector] public Player_Controller player;
 
+    private void Start()
+    {
+        player = FindObjectOfType<Player_Controller>();
+    }
+
     public void StartGameLevel()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Controller>();

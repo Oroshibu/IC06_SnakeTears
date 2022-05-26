@@ -267,6 +267,7 @@ MonoBehaviour:
   maskGround:
     serializedVersion: 2
     m_Bits: 1152
+  animator: {fileID: 6350664759156712505}
   speed: 6
   jumpVelocity: 1200
   gravityIdle: 2.5
