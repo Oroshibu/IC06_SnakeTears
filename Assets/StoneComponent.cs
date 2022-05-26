@@ -38,7 +38,6 @@ public class StoneComponent : MonoBehaviour
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {
                 Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
-                player.SetIsPushing(true);
 
                 pushedDirection = player.direction.normalized;
                 var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
@@ -53,11 +52,10 @@ public class StoneComponent : MonoBehaviour
                     if (!stone.canBePushed) return;
                 }
 
-
                 //if (player.isGrounded)
                 //{
 
-                
+                player.SetIsPushing(true);
                 StartPush(pushedDirection.x);
 
                 foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
