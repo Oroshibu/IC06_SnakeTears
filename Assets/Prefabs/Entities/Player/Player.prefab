@@ -249,7 +249,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7, y: 1.2}
+  m_Size: {x: 0.6, y: 1.2}
   m_EdgeRadius: 0
 --- !u!114 &6800938409407729826
 MonoBehaviour:
@@ -276,6 +276,7 @@ MonoBehaviour:
   attackCooldown: 0.25
   ray: {fileID: 1302329015431725428}
   ps_dust: {fileID: 4069019724586421216}
+  isGrounded: 0
 --- !u!95 &6350664759156712505
 Animator:
   serializedVersion: 3

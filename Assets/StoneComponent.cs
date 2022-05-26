@@ -5,9 +5,11 @@ using DG.Tweening;
 
 public class StoneComponent : MonoBehaviour
 {
+
+
     [SerializeField] LayerMask maskGround;
     public SpriteRenderer sprite;
-    
+    public bool JEDEBUG;
     [Header("Physics")]
     public float pushDelay = .25f;
     public float pushXStep = 1;    
@@ -28,9 +30,11 @@ public class StoneComponent : MonoBehaviour
     BoxCollider2D bc;
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
+    {   
+        if (JEDEBUG) Debug.Log("MUNGILOS");
         if (collision.gameObject.CompareTag("Player"))
         {
+            //if (isFalling) return;
             var vec = (Vector2)collision.transform.position - (Vector2)transform.position;
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {

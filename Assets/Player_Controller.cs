@@ -254,7 +254,7 @@ public class Player_Controller : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskGround);
+        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x - .1f, .05f), 0f, Vector2.down, .2f, maskGround);
     }
 
     void OnDrawGizmosSelected()
@@ -262,7 +262,7 @@ public class Player_Controller : MonoBehaviour
         if (Application.isPlaying)
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x * .75f, .05f));
+            Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x - .1f, .05f));
         }
     }
 
