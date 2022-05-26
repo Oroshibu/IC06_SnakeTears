@@ -32,4 +32,13 @@ public class Network_Companion : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        networkObject = collision.gameObject;
+        if (OnNetworkUpdate != null)
+        {
+            OnNetworkUpdate(networkObject);
+        }
+    }
+
 }
