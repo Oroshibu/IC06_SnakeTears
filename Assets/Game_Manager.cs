@@ -96,6 +96,7 @@ public class Game_Manager : MonoBehaviour
 
     public void Win()
     {
+        player.SetHasWon(true);
         StartCoroutine(WinCoroutine());
     }
 

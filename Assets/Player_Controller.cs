@@ -32,6 +32,7 @@ public class Player_Controller : MonoBehaviour
     bool jumpHeld;
     bool isAttacking;
     bool isPushing;
+    bool hasWon;
     public bool isGrounded;
     bool canAttack = true;
     bool canMove = true;
@@ -143,7 +144,11 @@ public class Player_Controller : MonoBehaviour
     
     private void AnimatorUpdate()
     {
-        if (isAttacking)
+        if (hasWon)
+        {
+            PlayAnimation("Player_Win");
+        }
+        else if (isAttacking)
         {
             //PlayAnimation("Player_Attack");
         } else if (isPushing)
@@ -277,6 +282,11 @@ public class Player_Controller : MonoBehaviour
     public void SetIsPushing(bool isPushing)
     {
         this.isPushing = isPushing;
+    }
+
+    public void SetHasWon(bool hasWon)
+    {
+        this.hasWon = hasWon;
     }
 
     Tween movementTween;
