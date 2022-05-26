@@ -35,7 +35,10 @@ public class StoneComponent : MonoBehaviour
         {            
             //if (isFalling) return;
             var vec = (Vector2)collision.transform.position - (Vector2)transform.position;
-            if (Vector2.Angle(Vector2.up, vec) > 50)
+            
+            //yDist 0 -> 1
+            var yDist = (collision.transform.position.y - transform.position.y);
+            if (Vector2.Angle(Vector2.up, vec) > 50 && yDist > -.05f && yDist < bc.size.y +.05f)
             {
                 Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
 
@@ -52,17 +55,19 @@ public class StoneComponent : MonoBehaviour
                     if (!stone.canBePushed) return;
                 }
 
-                //if (player.isGrounded)
-                //{
-
                 player.SetIsPushing(true);
-                StartPush(pushedDirection.x);
 
-                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                if (network.IsWallInNetworkDirection(pushedDirectionEnum)) return;
+
+                if (player.isGrounded)
                 {
-                    stone.StartPush(pushedDirection.x);
+                    StartPush(pushedDirection.x);
+
+                    foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                    {
+                        stone.StartPush(pushedDirection.x);
+                    }
                 }
-                //}
             }
         }
     }
@@ -73,10 +78,15 @@ public class StoneComponent : MonoBehaviour
         {
             Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
             var playerVelocity = player.direction.normalized;
+            
+            if (playerVelocity.x == 0)
+            {
+                player.SetIsPushing(false);
+            }
+            
             if (isPushed && playerVelocity.x == 0)
             {
                 StopPush();
-                player.SetIsPushing(false);
                 Game_Manager.i.player.DOStopMovePlayer();                
                 var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
                 foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
