@@ -96,6 +96,8 @@ public class Camera_Manager : MonoBehaviour
         cornerBottomRightWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMax + Vector3Int.one * 3);
 
         FocusCam(cornerTopLeftWorld, cornerBottomRightWorld);
+
+        Game_Manager.i.CameraFocused();
     }
 
     private void FocusCam(Vector2 topLeft, Vector2 bottomRight)

@@ -28,8 +28,9 @@ public class PayerSpawner : MonoBehaviour, ILDtkImportedFields
         Transform player = Instantiate(playerPrefab, transform.position, transform.rotation).transform;
         player.localScale = transform.localScale;
         player.parent = transform.parent;
-        Game_Manager.i.StartGameLevel();
-        
+
+        Game_Manager.i.PlayerSpawned();
+
         Destroy(gameObject);
     }
 }

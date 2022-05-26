@@ -29,16 +29,36 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector] public Player_Controller player;
 
+    private bool playerSpawned;
+    private bool cameraFocused;
+
     private void Start()
     {
         player = FindObjectOfType<Player_Controller>();
     }
 
-    public void StartGameLevel()
+    public void PlayerSpawned()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Controller>();
 
-        StartCoroutine(Transition_Manager.i.TransitionIn(player.transform.position, exitTimes: 0));
+        playerSpawned = true;
+
+        StartGameLevel();
+    }
+
+    public void CameraFocused()
+    {
+        cameraFocused = true;
+
+        StartGameLevel();
+    }
+
+    public void StartGameLevel()
+    {
+        if (playerSpawned && cameraFocused)
+        {
+            StartCoroutine(Transition_Manager.i.TransitionIn(player.transform.position, exitTimes: 0));
+        }
     }
 
     public void LockControls()
