@@ -5,11 +5,9 @@ using DG.Tweening;
 
 public class StoneComponent : MonoBehaviour
 {
-
-
     [SerializeField] LayerMask maskGround;
     public SpriteRenderer sprite;
-    public bool JEDEBUG;
+
     [Header("Physics")]
     public float pushDelay = .25f;
     public float pushXStep = 1;    
@@ -20,7 +18,9 @@ public class StoneComponent : MonoBehaviour
     [Header("Network")]
     public Network_Interface network;
 
-    bool isFalling = false;
+    [HideInInspector] public bool canBePushed = false;
+    [HideInInspector] public bool isFalling = false;
+    [HideInInspector] public bool isGrounded = true;    
     bool isPushed = false;
     bool isPushedMoving = false;
     Vector2 pushedDirection;
@@ -31,20 +31,35 @@ public class StoneComponent : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {   
-        if (JEDEBUG) Debug.Log("MUNGILOS");
         if (collision.gameObject.CompareTag("Player"))
-        {
+        {            
             //if (isFalling) return;
             var vec = (Vector2)collision.transform.position - (Vector2)transform.position;
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {
                 Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
+                player.SetIsPushing(true);
+
+                pushedDirection = player.direction.normalized;
+                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+
+                if (!canBePushed) return;
+                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                {
+                    if (!stone.canBePushed) return;
+                }
+                foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
+                {
+                    if (!stone.canBePushed) return;
+                }
+
+
                 //if (player.isGrounded)
                 //{
-                player.SetIsPushing(true);
-                pushedDirection = player.direction.normalized;
+
+                
                 StartPush(pushedDirection.x);
-                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
+
                 foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
                 {
                     stone.StartPush(pushedDirection.x);
@@ -220,16 +235,32 @@ public class StoneComponent : MonoBehaviour
         }
 
         //if (!isFalling)
-        if (IsGrounded() && !isFalling)
+        isGrounded = IsGrounded();
+        if (isGrounded && !isFalling)
         {
+            canBePushed = true;
             rb.isKinematic = true;
             transform.position = new Vector2(transform.position.x, Mathf.Round((transform.position.y - offset.y)/snapYStep)*snapYStep + offset.y);
             GetComponent<BoxCollider2D>().size = new Vector2(boxColliderWidths.y, 1f);
         } else
         {
+            canBePushed = false;
             rb.isKinematic = false;
             GetComponent<BoxCollider2D>().size = new Vector2(boxColliderWidths.x, 1f);
         }
+
+        ////reset pushed if isfalling or isfalling on top
+        //if (isFalling || !isGrounded)
+        //{
+        //    isPushed = false;
+        //}
+        //foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
+        //{
+        //    if (stone.isFalling || !isGrounded)
+        //    {
+        //        isPushed = false;
+        //    }
+        //}
     }
 
     private bool IsGrounded()
