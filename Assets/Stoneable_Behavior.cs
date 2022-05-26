@@ -45,6 +45,12 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
             mainState.SetActive(true);
             stoneStates[stoneState].SetActive(false);
         }
+
+        fields.TryGetBool("idiot", out bool idiot);
+        if (idiot)
+        {
+            mainState.GetComponent<PatrolAI>().idiot = true;
+        }
     }
 
     void FixedUpdate()
