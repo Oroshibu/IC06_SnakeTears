@@ -88,8 +88,6 @@ public class Camera_Manager : MonoBehaviour
             }
         }
 
-        tilemap.SetTile(new Vector3Int(emptyBoundMax.x, emptyBoundMax.y, 0), null);
-
         //Vector2 cornerTopLeftWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMin - Vector3Int.one * 2);
         //Vector2 cornerBottomRightWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMax + Vector3Int.one * 3);
         cornerTopLeftWorld = tilemap.CellToWorld((Vector3Int)emptyBoundMin - Vector3Int.one * 2);
