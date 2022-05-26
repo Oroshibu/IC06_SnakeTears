@@ -6,7 +6,8 @@ using DG.Tweening;
 public class StoneComponent : MonoBehaviour
 {
     [SerializeField] LayerMask maskGround;
-
+    public SpriteRenderer sprite;
+    
     [Header("Physics")]
     public float pushDelay = .25f;
     public float pushXStep = 1;    
@@ -33,13 +34,18 @@ public class StoneComponent : MonoBehaviour
             var vec = (Vector2)collision.transform.position - (Vector2)transform.position;
             if (Vector2.Angle(Vector2.up, vec) > 50)
             {
-                pushedDirection = collision.gameObject.GetComponent<Player_Controller>().direction.normalized;
+                Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
+                //if (player.isGrounded)
+                //{
+                player.SetIsPushing(true);
+                pushedDirection = player.direction.normalized;
                 StartPush(pushedDirection.x);
                 var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
-                foreach(var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
+                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
                 {
                     stone.StartPush(pushedDirection.x);
                 }
+                //}
             }
         }
     }
@@ -48,10 +54,13 @@ public class StoneComponent : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            var playerVelocity = collision.gameObject.GetComponent<Player_Controller>().direction.normalized;
+            Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
+            var playerVelocity = player.direction.normalized;
             if (isPushed && playerVelocity.x == 0)
             {
                 StopPush();
+                player.SetIsPushing(false);
+                Game_Manager.i.player.DOStopMovePlayer();                
                 var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
                 foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
                 {
@@ -68,7 +77,10 @@ public class StoneComponent : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
             StopPush();
+            player.SetIsPushing(false);
+            Game_Manager.i.player.DOStopMovePlayer();
             var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
             foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
             {
@@ -139,6 +151,7 @@ public class StoneComponent : MonoBehaviour
                 //yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x, .4f).WaitForCompletion();
                 //isPushedMoving = true;
                 //yield return transform.DOMoveX(endValue, .4f).OnComplete(() => isPushedMoving = false).WaitForCompletion();
+                Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
                 yield return Move(endValue, .4f);
             }
 

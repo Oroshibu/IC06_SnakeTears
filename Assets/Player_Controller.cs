@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class Player_Controller : MonoBehaviour
 {
     [SerializeField] GameObject selfPrefab;
     [SerializeField] LayerMask maskGround;
+    [SerializeField] Animator animator;
 
     [Header("Movement")]
     public float speed = 1f;
@@ -29,6 +31,8 @@ public class Player_Controller : MonoBehaviour
     bool jumpPressed;
     bool jumpHeld;
     bool isAttacking;
+    bool isPushing;
+    public bool isGrounded;
     bool canAttack = true;
     bool canMove = true;
     bool controlsLocked = false;
@@ -55,7 +59,7 @@ public class Player_Controller : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && !controlsLocked)
+        if (ctx.performed && !controlsLocked && rb.velocity.y <= 0)
         {
             jumpPressed = true;
             jumpHeld = true;
@@ -92,12 +96,14 @@ public class Player_Controller : MonoBehaviour
         canAttack = false;
         isAttacking = true;
         LockMovement();
+        PlayAnimation("Player_Attack");
         Camera_Manager.i.Shake();
         Camera_Manager.i.RayCameraEffect(1, .1f);
         ray.RayShootStart();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.7f);
         ray.RayShootStop();
         Camera_Manager.i.RayCameraEffect(0, .25f);
+        yield return new WaitForSeconds(.3f);
         UnlockMovement();
         isAttacking = false;
         yield return new WaitForSeconds(attackCooldown);
@@ -130,6 +136,42 @@ public class Player_Controller : MonoBehaviour
         controlsLocked = false;
     }
 
+    private void Update()
+    {
+        AnimatorUpdate();
+    }
+    
+    private void AnimatorUpdate()
+    {
+        if (isAttacking)
+        {
+            //PlayAnimation("Player_Attack");
+        } else if (isPushing)
+        {
+            PlayAnimation("Player_Push");
+        } else if (!isGrounded)
+        {
+            if (rb.velocity.y > 0)
+            {
+                PlayAnimation("Player_Jump");
+            }
+            else
+            {
+                PlayAnimation("Player_Fall");
+            }
+        } else if (isGrounded)
+        {
+            if (directionX != 0)
+            {
+                PlayAnimation("Player_Walk");
+            }
+            else
+            {
+                PlayAnimation("Player_Idle");
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         //FLIP PLAYER
@@ -145,8 +187,8 @@ public class Player_Controller : MonoBehaviour
             }
         }
 
-
-        if (IsGrounded())
+        isGrounded = IsGrounded();
+        if (isGrounded)
         {
             if (coyoteTimeTimer != coyoteTime)
             {
@@ -222,5 +264,33 @@ public class Player_Controller : MonoBehaviour
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2), new Vector2(bc.bounds.size.x * .75f, .05f));
         }
+    }
+
+    void PlayAnimation(string animName)
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
+        {
+            animator.Play(animName);
+        }
+    }
+
+    public void SetIsPushing(bool isPushing)
+    {
+        this.isPushing = isPushing;
+    }
+
+    Tween movementTween;
+    public void DOMovePlayer(float addedPosition, float duration = .4f)
+    {
+        if (movementTween == null)
+        {
+            movementTween = transform.DOMoveX(addedPosition, duration).SetRelative(true).OnComplete(() => movementTween = null);
+        }
+    }
+
+    public void DOStopMovePlayer()
+    {
+        movementTween.Kill();
+        movementTween = null;
     }
 }

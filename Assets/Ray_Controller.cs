@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using DG.Tweening;
 
 public class Ray_Controller : MonoBehaviour
 {
@@ -161,18 +162,18 @@ public class Ray_Controller : MonoBehaviour
         {
             raysLength = raysLengthMax;
         }
+        
+        //startAngleAtm *= angleSpeedAtm;
+        //if (startAngleAtm < startAngle)
+        //{
+        //    startAngleAtm = startAngle;
+        //}
 
-        startAngleAtm *= angleSpeedAtm;
-        if (startAngleAtm < startAngle)
-        {
-            startAngleAtm = startAngle;
-        }
-
-        endAngleAtm *= angleSpeedAtm;
-        if (endAngleAtm > endAngle)
-        {
-            endAngleAtm = endAngle;
-        }
+        //endAngleAtm *= angleSpeedAtm;
+        //if (endAngleAtm > endAngle)
+        //{
+        //    endAngleAtm = endAngle;
+        //}
     }
 
     private void OnDisable()
@@ -187,15 +188,15 @@ public class Ray_Controller : MonoBehaviour
             raysLength = 0.5f;
         }
 
-        if (startAngleAtm != -0.5f)
-        {
-            startAngleAtm = -0.5f;
-        }
+        //if (startAngleAtm != -0.5f)
+        //{
+        //    startAngleAtm = -0.5f;
+        //}
 
-        if (endAngleAtm != 0.5f)
-        {
-            endAngleAtm = 0.5f;
-        }
+        //if (endAngleAtm != 0.5f)
+        //{
+        //    endAngleAtm = 0.5f;
+        //}
 
         //this.GetComponentInParent<PlayerMovement>().StopAttacking();
     }
@@ -206,8 +207,13 @@ public class Ray_Controller : MonoBehaviour
         //meshRenderer.material.SetFloat("_Opacity", 1);
         fadingTime = 10000f;
         angleSpeedAtm = angleSpeed;
-    }
 
+        startAngleAtm = 0;
+        endAngleAtm = 0;
+        DOTween.To(() => startAngleAtm, x => startAngleAtm = x, startAngle, .35f).SetEase(Ease.OutBack);
+        DOTween.To(() => endAngleAtm, x => endAngleAtm = x, endAngle, .35f).SetEase(Ease.OutBack);
+    }
+    
     private void Update()
     {
         if (fadingTime > 0)
@@ -239,6 +245,14 @@ public class Ray_Controller : MonoBehaviour
 
     public void RayShootStop()
     {
+        //gameObject.SetActive(false);
+        StartCoroutine(RayShootStopCoroutine());
+    }
+
+    IEnumerator RayShootStopCoroutine()
+    {
+        DOTween.To(() => startAngleAtm, x => startAngleAtm = x, 0, .25f).SetEase(Ease.InBack);
+        yield return DOTween.To(() => endAngleAtm, x => endAngleAtm = x, 0, .25f).SetEase(Ease.InBack).WaitForCompletion();
         gameObject.SetActive(false);
     }
 
