@@ -70,7 +70,7 @@ public class Network_Interface : MonoBehaviour
             if (obj.CompareTag("Stone"))
             {
                 return obj.GetComponent<StoneComponent>().network.IsWallInNetworkDirection(direction);
-            } else if (obj.CompareTag("Ground"))
+            } else if (obj.CompareTag("Ground") || obj.CompareTag("Enemy"))
             {
                 return true;
             } else
