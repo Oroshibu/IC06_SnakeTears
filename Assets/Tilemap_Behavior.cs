@@ -37,4 +37,11 @@ public class Tilemap_Behavior : MonoBehaviour
        var pos = tilemap.WorldToCell(position);
        tilemap.SetTile(pos, null);
     }
+
+    public GameObject GetTileObjectAt(Vector3 position)
+    {
+        var pos = tilemap.WorldToCell(position);
+        return tilemap.GetInstantiatedObject(pos);
+    }
+
 }
