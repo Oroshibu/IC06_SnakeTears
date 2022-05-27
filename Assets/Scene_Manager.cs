@@ -42,7 +42,13 @@ public class Scene_Manager : MonoBehaviour
     public void NextScene()
     {
         Levels_Manager.i.NextLevel();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        if (Levels_Manager.i.levelID > 9)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        } else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

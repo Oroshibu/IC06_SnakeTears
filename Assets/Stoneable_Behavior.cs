@@ -46,6 +46,11 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
             stoneStates[stoneState].SetActive(false);
         }
 
+        if (fields.GetBool("halfTiled"))
+        {
+            transform.localPosition += Vector3.down * .5f;
+        }
+
         fields.TryGetBool("idiot", out bool idiot);
         if (idiot)
         {
