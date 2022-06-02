@@ -5,6 +5,15 @@ using DG.Tweening;
 
 public class StoneComponent : MonoBehaviour
 {
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
+    
     [SerializeField] LayerMask maskGround;
     public SpriteRenderer sprite;
 
@@ -15,8 +24,8 @@ public class StoneComponent : MonoBehaviour
     public Vector2 offset;
     public Vector2 boxColliderWidths;
 
-    [Header("Network")]
-    public Network_Interface network;
+    [Header("Tree")]
+    [SerializeField] LayerMask maskTree;
 
     [HideInInspector] public bool canBePushed = false;
     [HideInInspector] public bool isFalling = false;
@@ -42,31 +51,12 @@ public class StoneComponent : MonoBehaviour
             {
                 Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
 
-                pushedDirection = player.direction.normalized;
-                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
-
-                if (!canBePushed) return;
-                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
-                {
-                    if (!stone.canBePushed) return;
-                }
-                foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
-                {
-                    if (!stone.canBePushed) return;
-                }
-
-                player.SetIsPushing(true);
-
-                if (network.IsWallInNetworkDirection(pushedDirectionEnum)) return;
-
                 if (player.isGrounded)
                 {
+                    pushedDirection = player.direction.normalized;
+                    if (!canBePushed) return;
+                    player.SetIsPushing(true);
                     StartPush(pushedDirection.x);
-
-                    foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
-                    {
-                        stone.StartPush(pushedDirection.x);
-                    }
                 }
             }
         }
@@ -88,11 +78,6 @@ public class StoneComponent : MonoBehaviour
             {
                 StopPush();
                 Game_Manager.i.player.DOStopMovePlayer();                
-                var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
-                foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
-                {
-                    stone.StopPush();
-                }
             } else if (!isPushed && playerVelocity.x != 0)
             {
                 OnCollisionEnter2D(collision);
@@ -108,11 +93,7 @@ public class StoneComponent : MonoBehaviour
             StopPush();
             player.SetIsPushing(false);
             Game_Manager.i.player.DOStopMovePlayer();
-            var pushedDirectionEnum = pushedDirection.x > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
-            foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
-            {
-                stone.StopPush();
-            }
+            var pushedDirectionEnum = pushedDirection.x > 0 ? Direction.Right : Direction.Left;
         }
     }
 
@@ -124,11 +105,6 @@ public class StoneComponent : MonoBehaviour
             StopCoroutine(pushCoroutineRef);
         }
         pushCoroutineRef = StartCoroutine(pushCoroutine(pushDirectionX));
-
-        foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
-        {
-            stone.StartPush(pushDirectionX);
-        }
     }
 
     public void StopPush()
@@ -141,75 +117,170 @@ public class StoneComponent : MonoBehaviour
                 StopCoroutine(pushCoroutineRef);
             }
         }
-
-        foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
-        {
-            stone.StopPush();
-        }
     }
 
-    private bool isGridSnapped()
+    IEnumerator pushCoroutine(float pushDirectionX)
     {
-        if ((transform.position.x - offset.x)%1 == 0)
+        yield return new WaitForSeconds(pushDelay);
+        yield return TryPushBlock(pushDirectionX);
+        StopPush();
+    }
+
+    public IEnumerator TryPushBlock(float pushDirectionX)
+    {
+        //if line pushed
+        if (TryPushLine(pushDirectionX))
         {
+            Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
+            yield return new WaitForSeconds(.4f);
+        }
+
+        //var direction = pushDirectionX > 0 ? Direction.Right : Direction.Left;        
+        //if (CanPushLine(direction))
+        //{
+        //    RecursivePushLine(pushDirectionX);
+            
+        //    Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
+        //    yield return new WaitForSeconds(.41f);
+        //}
+    }
+
+    private bool TryPushLine(float pushDirectionX)
+    {
+        var direction = pushDirectionX > 0 ? Direction.Right : Direction.Left;
+        if (CanPushLine(direction))
+        {
+            //push line
+            RecursivePushLine(pushDirectionX);
             return true;
-        } else
+        }
+        else
         {
             return false;
         }
     }
 
-    IEnumerator pushCoroutine(float pushDirectionX)
+    private void RecursivePushLine(float pushDirectionX)
     {
-        while (isPushed && !isFalling)
-        {
-            yield return new WaitForSeconds(pushDelay);
-            var pushedDirectionEnum = pushDirectionX > 0 ? Network_Interface.Direction.Right : Network_Interface.Direction.Left;
-            if (!network.IsWallInNetworkDirection(pushedDirectionEnum) || !isGridSnapped())
-            {
-                float endValue;
-                if (pushDirectionX >= 0)
-                {
-                    endValue = Mathf.Floor(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
-                } else
-                {
-                    endValue = Mathf.Ceil(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
-                }
-                //yield return transform.DOMoveX(Mathf.Round(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x, .4f).WaitForCompletion();
-                //isPushedMoving = true;
-                //yield return transform.DOMoveX(endValue, .4f).OnComplete(() => isPushedMoving = false).WaitForCompletion();
-                Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
-                yield return Move(endValue, .4f);
-            }
+        if (isPushedMoving) return;
 
-            //Stone can push new stone on reset
-            foreach (var stone in network.GetExtendedStoneNetwork(pushedDirectionEnum))
-            {
-                stone.StartPush(pushedDirection.x);
-            }
+        MoveThisStone(pushDirectionX);
+
+        var direction = pushDirectionX > 0 ? Direction.Right : Direction.Left;
+        GameObject nextObject = GetObject(direction);
+
+        if (nextObject != null && nextObject.CompareTag("Stone"))
+        {
+            StoneComponent nextStone = nextObject.GetComponent<StoneComponent>();
+            nextStone.RecursivePushLine(pushDirectionX);
+        }
+
+        GameObject upObject = GetObject(Direction.Up);
+
+        if (upObject != null && upObject.CompareTag("Stone"))
+        {
+            StoneComponent upStone = upObject.GetComponent<StoneComponent>();
+            upStone.TryPushLine(pushDirectionX);
         }
     }
 
-    public IEnumerator Move(float endValue, float duration = .4f)
+    private void MoveThisStone(float pushDirectionX)
+    {
+        float endValue;
+        if (pushDirectionX >= 0)
+        {
+            endValue = Mathf.Floor(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
+        }
+        else
+        {
+            endValue = Mathf.Ceil(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
+        }
+        Move(endValue, .4f);
+    }
+
+    private bool CanPushLine(Direction direction)
+    {
+        GameObject nextObject = GetObject(direction);
+        if (nextObject == null){
+            return true;
+        } else if (nextObject.CompareTag("Stone"))
+        {
+            StoneComponent stoneComp = nextObject.GetComponent<StoneComponent>();
+            if (!stoneComp.canBePushed)
+            {
+                return false;
+            } else
+            {
+                return stoneComp.CanPushLine(direction);
+            }
+        } else //Ground & Enemy
+        {
+            return false;
+        }
+    }
+
+    private GameObject GetObject(Direction direction)
+    {
+        Vector2 projOffset;
+        Vector2 boxSize;
+        
+        if (direction == Direction.Up)
+        {
+            projOffset = Vector2.up;
+            boxSize = new Vector2(.8f, .3f);
+        } else if (direction == Direction.Left)
+        {
+            projOffset = Vector2.left;
+            boxSize = new Vector2(.3f, .95f);
+        } else if (direction == Direction.Right)
+        {
+            projOffset = Vector2.right;
+            boxSize = new Vector2(.3f, .95f);
+        }
+        else
+        {
+            projOffset = Vector2.down;
+            boxSize = new Vector2(.8f, .3f);
+        }
+        
+        var m_HitDetect = Physics2D.BoxCast(
+            bc.bounds.center + (Vector3)projOffset * .75f,
+            boxSize,
+            0f,
+            projOffset,
+            .5f,
+            maskTree
+        );
+
+        if (m_HitDetect)
+        {
+            //Output the name of the Collider your Box hit
+            Debug.Log("Hit : " + m_HitDetect.collider.name);
+
+            return m_HitDetect.collider.gameObject;
+        } else
+        {
+            return null;
+        }
+    }
+
+    private void Move(float endValue, float duration = .4f)
     {
         isPushedMoving = true;
-        yield return transform.DOMoveX(endValue, duration).OnComplete(() => isPushedMoving = false).WaitForCompletion();
+        transform.DOMoveX(endValue, duration).OnComplete(() => isPushedMoving = false);
     }
+
+    //public IEnumerator Move(float endValue, float duration = .4f)
+    //{
+    //    isPushedMoving = true;
+    //    yield return transform.DOMoveX(endValue, duration).OnComplete(() => isPushedMoving = false).WaitForCompletion();
+    //}
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
-
-        //COMMENTED TEMPORARY
-        //network.networkLeft.OnNetworkUpdate += OnEncounterObjectWhileMoving;
-        //network.networkRight.OnNetworkUpdate += OnEncounterObjectWhileMoving;
     }
-
-    //private void OnEnable()
-    //{
-    //    SnapToClosestX();
-    //}
 
     public void SnapToClosestX()
     {
@@ -217,18 +288,11 @@ public class StoneComponent : MonoBehaviour
         transform.position = new Vector2(endValue, transform.position.y);
     }
 
-    private void OnEncounterObjectWhileMoving(GameObject gameObject)
+    public void SnapToClosestX(float duration)
     {
-        if (isPushedMoving)
-        {
-            if (gameObject != null)
-            {
-                if (gameObject.CompareTag("Stone"))
-                {
-                    gameObject.GetComponent<StoneComponent>().StartPush(pushedDirection.x);
-                }
-            }
-        }
+        var endValue = Mathf.Round(transform.position.x - offset.x) + offset.x;
+        Move(endValue, duration);
+        //transform.position = new Vector2(endValue, transform.position.y);
     }
 
     private void FixedUpdate()
@@ -236,7 +300,6 @@ public class StoneComponent : MonoBehaviour
         if (rb.velocity.y < -.01f)
         {
             isFalling = true;
-            StopPush();
         } else
         {
             isFalling = false;
@@ -256,19 +319,6 @@ public class StoneComponent : MonoBehaviour
             rb.isKinematic = false;
             GetComponent<BoxCollider2D>().size = new Vector2(boxColliderWidths.x, 1f);
         }
-
-        ////reset pushed if isfalling or isfalling on top
-        //if (isFalling || !isGrounded)
-        //{
-        //    isPushed = false;
-        //}
-        //foreach (var stone in network.GetExtendedStoneNetwork(Network_Interface.Direction.Up))
-        //{
-        //    if (stone.isFalling || !isGrounded)
-        //    {
-        //        isPushed = false;
-        //    }
-        //}
     }
 
     private bool IsGrounded()
@@ -282,6 +332,11 @@ public class StoneComponent : MonoBehaviour
         {
             Gizmos.color = new Color(1, 0, 0, 0.5f);
             Gizmos.DrawCube(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + .25f), new Vector2(bc.bounds.size.x * .75f, .05f));
+
+            Gizmos.color = new Color(0, 1, 0, 0.5f);
+            Gizmos.DrawCube(bc.bounds.center + Vector3.right * .75f, new Vector2(.3f, .95f));
+            Gizmos.DrawCube(bc.bounds.center + Vector3.left * .75f, new Vector2(.3f, .95f));
+            Gizmos.DrawCube(bc.bounds.center + Vector3.up * .75f, new Vector2(.8f, .3f));
         }
     }
 
