@@ -111,9 +111,10 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
 
         StoneComponent stoneComponent = stoneStates[stoneState].GetComponent<StoneComponent>();
 
-        stoneComponent.SnapToClosestX();
+        //stoneComponent.SnapToClosestX();
+        stoneComponent.SnapToClosestX(.2f);
         //stoneComponent.sprite.transform.rotation = Quaternion.Euler(0, 0, 20 * Mathf.Sign(stoneComponent.sprite.transform.lossyScale.x));
-        
+
         //dotween rotation sequence
         Sequence rotaSeq = DOTween.Sequence();
         rotaSeq.Insert(0, stoneComponent.sprite.transform.DOLocalMoveY(.1f, .25f).SetEase(Ease.OutBounce));

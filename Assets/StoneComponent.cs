@@ -17,6 +17,9 @@ public class StoneComponent : MonoBehaviour
     [SerializeField] LayerMask maskGround;
     public SpriteRenderer sprite;
 
+    [SerializeField] private ParticleSystem ps;
+
+
     [Header("Physics")]
     public float pushDelay = .25f;
     public float pushXStep = 1;    
@@ -29,7 +32,9 @@ public class StoneComponent : MonoBehaviour
 
     [HideInInspector] public bool canBePushed = false;
     [HideInInspector] public bool isFalling = false;
-    [HideInInspector] public bool isGrounded = true;    
+    [HideInInspector] public bool isGrounded = true;
+    private bool isOnTilesGround;
+    private bool snapped;
     bool isPushed = false;
     bool isPushedMoving = false;
     Vector2 pushedDirection;
@@ -195,6 +200,7 @@ public class StoneComponent : MonoBehaviour
         {
             endValue = Mathf.Ceil(transform.position.x - offset.x + pushDirectionX * pushXStep) + offset.x;
         }
+        if (isOnTilesGround) ps.Play();
         Move(endValue, .4f);
     }
 
@@ -282,6 +288,12 @@ public class StoneComponent : MonoBehaviour
         bc = GetComponent<BoxCollider2D>();
     }
 
+    private void OnEnable()
+    {
+        ps.transform.parent = transform;
+        ps.transform.localPosition = Vector3.zero;
+    }
+
     public void SnapToClosestX()
     {
         var endValue = Mathf.Round(transform.position.x - offset.x) + offset.x;
@@ -290,9 +302,16 @@ public class StoneComponent : MonoBehaviour
 
     public void SnapToClosestX(float duration)
     {
+        if (snapped) return;
+        snapped = true;
         var endValue = Mathf.Round(transform.position.x - offset.x) + offset.x;
         Move(endValue, duration);
         //transform.position = new Vector2(endValue, transform.position.y);
+    }
+
+    private void OnDisable()
+    {
+        snapped = false;
     }
 
     private void FixedUpdate()
@@ -309,6 +328,10 @@ public class StoneComponent : MonoBehaviour
         isGrounded = IsGrounded();
         if (isGrounded && !isFalling)
         {
+            if (!canBePushed && isOnTilesGround)
+            {
+                ps.Play();
+            }
             canBePushed = true;
             rb.isKinematic = true;
             transform.position = new Vector2(transform.position.x, Mathf.Round((transform.position.y - offset.y)/snapYStep)*snapYStep + offset.y);
@@ -323,7 +346,10 @@ public class StoneComponent : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + +.25f), new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskGround);
+        var cast = Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2 + +.25f), new Vector2(bc.bounds.size.x * .75f, .05f), 0f, Vector2.down, .2f, maskGround);
+        if (!cast) return false;
+        isOnTilesGround = cast.collider.CompareTag("Ground");
+        return true;
     }
 
     void OnDrawGizmosSelected()
