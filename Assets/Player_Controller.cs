@@ -34,6 +34,7 @@ public class Player_Controller : MonoBehaviour
     bool isPushing;
     bool hasWon;
     bool isDead;
+    bool lockedMovementUntilGrounded;
     public bool isGrounded;
     bool canAttack = true;
     bool canMove = true;
@@ -138,6 +139,12 @@ public class Player_Controller : MonoBehaviour
         controlsLocked = false;
     }
 
+    public void LockMovementUntilGrounded()
+    {
+        lockedMovementUntilGrounded = true;
+        rb.velocity = Vector2.zero;
+    }
+
     private void Update()
     {
         AnimatorUpdate();
@@ -200,6 +207,8 @@ public class Player_Controller : MonoBehaviour
         isGrounded = IsGrounded();
         if (isGrounded)
         {
+            lockedMovementUntilGrounded = false;
+
             if (coyoteTimeTimer != coyoteTime)
             {
                 coyoteTimeTimer = coyoteTime;
@@ -219,6 +228,8 @@ public class Player_Controller : MonoBehaviour
 
     void FixedUpdateWalk()
     {
+        if (lockedMovementUntilGrounded) return;
+
         // WALK
         if (canMove)
         {
@@ -231,6 +242,8 @@ public class Player_Controller : MonoBehaviour
 
     void FixedUpdateJump()
     {
+        if (lockedMovementUntilGrounded) return;
+
         // JUMP
         if (canMove)
         {
