@@ -444,6 +444,7 @@ MonoBehaviour:
     m_Bits: 1728
   groundCheck: {fileID: 6921372690541190334}
   wallCheck: {fileID: 6097737620926410540}
+  shouldGroundCheck: 1
   idiot: 0
   isMoving: 0
 --- !u!95 &4763946750627912585

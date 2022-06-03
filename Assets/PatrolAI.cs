@@ -9,10 +9,11 @@ public class PatrolAI : MonoBehaviour
 
     public LayerMask groundMask;
     public LayerMask wallMask;
-
+    
     public Transform groundCheck;
     public Transform wallCheck;
-
+    
+    public bool shouldGroundCheck = true;
     public bool idiot;
 
     [HideInInspector] public bool isMoving = false;
@@ -45,12 +46,14 @@ public class PatrolAI : MonoBehaviour
             isMoving = true;
             rb.MovePosition(rb.position + Vector2.right * Mathf.Sign(transform.lossyScale.x) * speed * Time.fixedDeltaTime);
 
-
-            RaycastHit2D hitGround = Physics2D.Raycast(groundCheck.position, Vector2.down, .001f, groundMask);
-
-            if (hitGround.collider == null)
+            if (shouldGroundCheck)
             {
-                Pause();
+                RaycastHit2D hitGround = Physics2D.Raycast(groundCheck.position, Vector2.down, .001f, groundMask);
+
+                if (hitGround.collider == null)
+                {
+                    Pause();
+                }
             }
 
             RaycastHit2D hitWall = Physics2D.Raycast(wallCheck.position, Vector2.down, .001f, wallMask);
