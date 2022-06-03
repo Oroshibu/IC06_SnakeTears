@@ -33,10 +33,10 @@ public class PatrolAI : MonoBehaviour
         if (pause)
         {
             isMoving = false;
-            pauseTimer += Time.fixedDeltaTime;
-            if (pauseTimer >= pauseTime)
+            pauseTimer -= Time.fixedDeltaTime;
+            if (pauseTimer < 0)
             {
-                pauseTimer = 0;
+                pauseTimer = pauseTime;
                 pause = false;
                 Flip();
             }
@@ -62,9 +62,15 @@ public class PatrolAI : MonoBehaviour
         }
     }
 
-    void Pause(){
+    public void Pause(){
         pause = true;
-        pauseTimer = 0f;
+        pauseTimer = pauseTime;
+    }
+
+    public void Pause(float duration)
+    {
+        pause = true;
+        pauseTimer = duration;
     }
 
     void Flip()

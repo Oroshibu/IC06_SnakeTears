@@ -33,6 +33,7 @@ public class Player_Controller : MonoBehaviour
     bool isAttacking;
     bool isPushing;
     bool hasWon;
+    bool isDead;
     public bool isGrounded;
     bool canAttack = true;
     bool canMove = true;
@@ -144,7 +145,11 @@ public class Player_Controller : MonoBehaviour
     
     private void AnimatorUpdate()
     {
-        if (hasWon)
+        if (isDead)
+        {
+            PlayAnimation("Player_Win");
+        }
+        else if (hasWon)
         {
             PlayAnimation("Player_Win");
         }
@@ -302,5 +307,10 @@ public class Player_Controller : MonoBehaviour
     {
         movementTween.Kill();
         movementTween = null;
+    }
+
+    public void Die()
+    {
+        isDead = true;
     }
 }

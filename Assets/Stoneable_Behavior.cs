@@ -10,9 +10,10 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
     [SerializeField] List<GameObject> stoneStates;
     [SerializeField] float stonedDuration;
     //[System.NonSerialized] public bool freezed = false;
-
+    
     private float stonedDurationCounting;
     private bool isStone;
+    public bool canBeStoned;
     //private bool isTransforming;
 
     [HideInInspector]
@@ -76,6 +77,8 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
 
     public void Stone()
     {
+        if (!canBeStoned) return;
+
         if (!isStone)
         //if (!isStone && !isTransforming)
         {

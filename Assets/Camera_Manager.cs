@@ -9,7 +9,8 @@ public class Camera_Manager : MonoBehaviour
 {
     public Camera cameraObj;
     public Volume rayVolumeObj;
-   
+    public Volume deathVolumeObj;
+
     //Singletion Pattern
     private static Camera_Manager _i;
 
@@ -40,7 +41,27 @@ public class Camera_Manager : MonoBehaviour
 
     public void RayCameraEffect(float newWeight, float duration)
     {
-        DOTween.To(() => rayVolumeObj.weight, x => rayVolumeObj.weight = x, newWeight, duration).SetEase(Ease.OutQuart);
+        if (newWeight > 0)
+        {
+            rayVolumeObj.gameObject.SetActive(true);
+            DOTween.To(() => rayVolumeObj.weight, x => rayVolumeObj.weight = x, newWeight, duration).SetEase(Ease.OutQuart);
+        } else
+        {
+            DOTween.To(() => rayVolumeObj.weight, x => rayVolumeObj.weight = x, newWeight, duration).SetEase(Ease.OutQuart).OnComplete(() => rayVolumeObj.gameObject.SetActive(false));
+        }
+    }
+
+    public void DeathCameraEffect(float newWeight, float duration)
+    {
+        if (newWeight > 0)
+        {
+            deathVolumeObj.gameObject.SetActive(true);
+            DOTween.To(() => deathVolumeObj.weight, x => deathVolumeObj.weight = x, newWeight, duration).SetEase(Ease.InQuart);
+        }
+        else
+        {
+            DOTween.To(() => deathVolumeObj.weight, x => deathVolumeObj.weight = x, newWeight, duration).SetEase(Ease.InQuart).OnComplete(() => deathVolumeObj.gameObject.SetActive(false));
+        }
     }
 
     public void FocusOnGrid(Tilemap tilemap)

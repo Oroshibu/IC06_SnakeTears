@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7225162537819759312
 Transform:
   m_ObjectHideFlags: 0
@@ -527,6 +527,7 @@ MonoBehaviour:
   stoneStates:
   - {fileID: 7225162537819759319}
   stonedDuration: -1
+  canBeStoned: 1
   stoneState: 0
 --- !u!1001 &641852406295022250
 PrefabInstance:

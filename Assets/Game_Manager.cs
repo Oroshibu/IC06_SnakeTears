@@ -31,6 +31,8 @@ public class Game_Manager : MonoBehaviour
 
     private bool playerSpawned;
     private bool cameraFocused;
+    private bool dead;
+    private bool win;
 
     private void Start()
     {
@@ -96,6 +98,8 @@ public class Game_Manager : MonoBehaviour
 
     public void Win()
     {
+        if (win) return;
+        win = true;
         player.SetHasWon(true);
         StartCoroutine(WinCoroutine());
     }
@@ -103,9 +107,27 @@ public class Game_Manager : MonoBehaviour
     IEnumerator WinCoroutine()
     {
         LockControls();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         yield return Transition_Manager.i.TransitionOut(player.transform.position);
         Scene_Manager.i.NextScene();
+    }
+
+    public void Death()
+    {
+        if (dead) return;
+        dead = true;
+        player.Die();
+        StartCoroutine(DeathCoroutine());
+    }
+
+    IEnumerator DeathCoroutine()
+    {
+        LockControls();
+        Camera_Manager.i.Shake(2, .2f);
+        Camera_Manager.i.DeathCameraEffect(1, 1);
+        yield return new WaitForSeconds(1f);
+        yield return Transition_Manager.i.TransitionOut(player.transform.position, 1.5f, 0);
+        Scene_Manager.i.ReloadScene();
     }
 
     public void Restart()
