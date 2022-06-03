@@ -66,7 +66,7 @@ public class SoldierGroundAI : MonoBehaviour
 
     private void OnSwordTriggered(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !isAttacking)
         {
             StartCoroutine(AttackCoroutine());   
         }
@@ -76,17 +76,24 @@ public class SoldierGroundAI : MonoBehaviour
     {
         patrolAI.Pause(2.5f);
         isAttacking = true;
-        stoneableBehavior.canBeStoned = true;
+        
         PlayAnimation("SoldierGround_Attack1");
         yield return new WaitForSeconds(1f);
-        stoneableBehavior.canBeStoned = false;
+
 
         triggerDamage.gameObject.SetActive(true);
         triggerDamage.GetComponent<BoxCollider2D>().isTrigger = false;
         triggerDamage.GetComponent<BoxCollider2D>().isTrigger = true;
+        
         PlayAnimation("SoldierGround_Attack2");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.25f);
+
         triggerDamage.gameObject.SetActive(false);
+        stoneableBehavior.canBeStoned = true;
+        yield return new WaitForSeconds(1.25f);
+        
+        
+        stoneableBehavior.canBeStoned = false;
         isAttacking = false;
     }
 }
