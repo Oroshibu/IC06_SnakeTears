@@ -154,7 +154,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (isDead)
         {
-            PlayAnimation("Player_Win");
+            PlayAnimation("Player_Death");
         }
         else if (hasWon)
         {

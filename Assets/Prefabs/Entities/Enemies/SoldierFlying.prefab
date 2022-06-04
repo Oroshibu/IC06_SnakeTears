@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoneableBehavior: {fileID: 7300864693163184271}
-  arrowPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 2038574010966182119, guid: fddc1ea9211d28846b6ae5fe5cc5b95c, type: 3}
   sightMask:
     serializedVersion: 2
     m_Bits: 1728

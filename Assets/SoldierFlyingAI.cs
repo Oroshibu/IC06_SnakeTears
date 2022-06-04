@@ -34,6 +34,24 @@ public class SoldierFlyingAI : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        RaycastHit2D hitSight = Physics2D.Raycast(lineOfSight.position, Vector2.right * transform.lossyScale.x, 30f, sightMask);
+
+        if (hitSight.collider != null)
+        {
+            Debug.Log("Hit Sight " + hitSight.collider.name);
+
+            if (hitSight.collider.CompareTag("Player"))
+            {
+                if (!isAttacking)
+                {
+                    StartCoroutine(AttackCoroutine());
+                }
+            }
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -56,17 +74,17 @@ public class SoldierFlyingAI : MonoBehaviour
         isAttacking = true;
 
         PlayAnimation("SoldierFlying_Attack1");
-        yield return new WaitForSeconds(1f);
-
+        yield return new WaitForSeconds(.3f);
+        
+        stoneableBehavior.canBeStoned = true;
+        yield return new WaitForSeconds(.7f);
 
         PlayAnimation("SoldierFlying_Attack2");
-        yield return new WaitForSeconds(.25f);
-
-        stoneableBehavior.canBeStoned = true;
-        yield return new WaitForSeconds(1.25f);
-
-
         stoneableBehavior.canBeStoned = false;
+        var arrow = Instantiate(arrowPrefab, lineOfSight.position, Quaternion.identity);
+        arrow.transform.localScale = new Vector3(transform.lossyScale.x, 1, 1);
+        yield return new WaitForSeconds(.4f);
+        
         isAttacking = false;
     }
 }
