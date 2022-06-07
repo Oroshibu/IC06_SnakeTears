@@ -21,6 +21,8 @@ ScriptedImporter:
     _asset: {fileID: 11400000, guid: 59383d18f335b58439e7ae6aaa38c568, type: 2}
   - _key: Tiles_2
     _asset: {fileID: 11400000, guid: 8f81785b8a3434740a158f64266877b9, type: 2}
+  - _key: Tiles_3
+    _asset: {fileID: 11400000, guid: 9aa1bdc80a1dd0542a1731e994786cbd, type: 2}
   _entities:
   - _key: Player
     _asset: {fileID: 3609931695761222941, guid: ab80230984bc18a49a1df36d38766b5a, type: 3}
@@ -28,6 +30,10 @@ ScriptedImporter:
     _asset: {fileID: 1607746642853313216, guid: 072643c444e871c468e3a1b458178bca, type: 3}
   - _key: Sheep
     _asset: {fileID: 7225162538971386048, guid: c6636ff6dd33b984b9119e76ebedcb82, type: 3}
+  - _key: SoldierGround
+    _asset: {fileID: 754070546078118549, guid: 4d305866604159b42b1af1da4f54df73, type: 3}
+  - _key: SoldierFlying
+    _asset: {fileID: 5779384347953645837, guid: 7c71f9da84b691c469bf541783584736, type: 3}
   _enumGenerate: 0
   _enumPath: 
   _enumNamespace: 
