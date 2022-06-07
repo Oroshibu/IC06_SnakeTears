@@ -3665,8 +3665,8 @@
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,
 						1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,
-						0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,
+						1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 						1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
 						0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -3852,7 +3852,10 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
+								{ "__identifier": "isStone", "__value": true, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] },
 								{ "__identifier": "idiot", "__value": true, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
@@ -3874,106 +3877,14 @@
 							"px": [216,136],
 							"fieldInstances": [
 								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
+								{ "__identifier": "isStone", "__value": true, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] },
 								{ "__identifier": "idiot", "__value": true, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
-							]
-						},
-						{
-							"__identifier": "Sheep",
-							"__grid": [18,10],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 24, "x": 128, "y": 128, "w": 256, "h": 256 },
-							"__smartColor": "#0086FF",
-							"iid": "a989fa20-dbe0-11ec-93e5-89dccca9489c",
-							"width": 16,
-							"height": 16,
-							"defUid": 15,
-							"px": [296,168],
-							"fieldInstances": [
-								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
-								{ "__identifier": "idiot", "__value": false, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [] },
-								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
-							]
-						},
-						{
-							"__identifier": "Sheep",
-							"__grid": [18,8],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 24, "x": 128, "y": 128, "w": 256, "h": 256 },
-							"__smartColor": "#0086FF",
-							"iid": "a9fa2110-dbe0-11ec-93e5-832176f91647",
-							"width": 16,
-							"height": 16,
-							"defUid": 15,
-							"px": [296,136],
-							"fieldInstances": [
-								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
-								{ "__identifier": "idiot", "__value": false, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [] },
-								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
-							]
-						},
-						{
-							"__identifier": "Sheep",
-							"__grid": [18,9],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 24, "x": 128, "y": 128, "w": 256, "h": 256 },
-							"__smartColor": "#0086FF",
-							"iid": "ab60b5f0-dbe0-11ec-93e5-ff0d0ed45df0",
-							"width": 16,
-							"height": 16,
-							"defUid": 15,
-							"px": [296,152],
-							"fieldInstances": [
-								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
-								{ "__identifier": "idiot", "__value": false, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [] },
-								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
-							]
-						},
-						{
-							"__identifier": "Sheep",
-							"__grid": [18,11],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 24, "x": 128, "y": 128, "w": 256, "h": 256 },
-							"__smartColor": "#0086FF",
-							"iid": "ad64ea60-dbe0-11ec-93e5-bf905728372e",
-							"width": 16,
-							"height": 16,
-							"defUid": 15,
-							"px": [296,184],
-							"fieldInstances": [
-								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
-								{ "__identifier": "idiot", "__value": false, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [] },
-								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
-							]
-						},
-						{
-							"__identifier": "Sheep",
-							"__grid": [15,10],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 24, "x": 128, "y": 128, "w": 256, "h": 256 },
-							"__smartColor": "#0086FF",
-							"iid": "af38c000-dbe0-11ec-93e5-176157284dbf",
-							"width": 16,
-							"height": 16,
-							"defUid": 15,
-							"px": [248,168],
-							"fieldInstances": [
-								{ "__identifier": "flip", "__value": false, "__type": "Bool", "__tile": null, "defUid": 19, "realEditorValues": [] },
-								{ "__identifier": "isStone", "__value": false, "__type": "Bool", "__tile": null, "defUid": 20, "realEditorValues": [] },
-								{ "__identifier": "idiot", "__value": false, "__type": "Bool", "__tile": null, "defUid": 37, "realEditorValues": [] },
 								{ "__identifier": "halfTiled", "__value": false, "__type": "Bool", "__tile": null, "defUid": 38, "realEditorValues": [] }
 							]
 						}

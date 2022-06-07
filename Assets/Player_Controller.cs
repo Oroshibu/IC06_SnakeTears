@@ -277,7 +277,7 @@ public class Player_Controller : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x - .1f, .05f), 0f, Vector2.down, 1f, maskGround);
+        return Physics2D.BoxCast(bc.bounds.center - new Vector3(0, bc.bounds.size.y / 2),  new Vector2(bc.bounds.size.x - .225f, .05f), 0f, Vector2.down, 1f, maskGround);
     }
 
     void OnDrawGizmosSelected()

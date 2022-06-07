@@ -136,7 +136,11 @@ public class StoneComponent : MonoBehaviour
         //if line pushed
         if (TryPushLine(pushDirectionX))
         {
-            Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
+            var topObject = GetObject(Direction.Up);
+            if (topObject == null || !topObject.CompareTag("Ground"))
+            {
+                Game_Manager.i.player.DOMovePlayer(pushDirectionX * pushXStep, .4f);
+            }
             yield return new WaitForSeconds(.4f);
         }
 
@@ -261,7 +265,7 @@ public class StoneComponent : MonoBehaviour
         if (m_HitDetect)
         {
             //Output the name of the Collider your Box hit
-            Debug.Log("Hit : " + m_HitDetect.collider.name);
+            //Debug.Log("Hit : " + m_HitDetect.collider.name);
 
             return m_HitDetect.collider.gameObject;
         } else

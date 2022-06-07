@@ -14,6 +14,8 @@ public class Camera_Manager : MonoBehaviour
     //Singletion Pattern
     private static Camera_Manager _i;
 
+    private List<string> boundsBlocks = new List<string>{"block"};
+
     public static Camera_Manager i
     {
         get
@@ -72,7 +74,7 @@ public class Camera_Manager : MonoBehaviour
         Vector3Int actualBoundsMax = Vector3Int.back;
         foreach (var i in bounds.allPositionsWithin)
         {
-            if (tilemap.HasTile(i))
+            if (tilemap.HasTile(i) && boundsBlocks.Contains(tilemap.GetTile(i).name))
             {
                 if (actualBoundsMin == Vector3Int.back)
                 {
@@ -88,7 +90,7 @@ public class Camera_Manager : MonoBehaviour
 
         foreach (var i in actualBounds.allPositionsWithin)
         {
-            if (!tilemap.HasTile(i))
+            if (!(tilemap.HasTile(i) && boundsBlocks.Contains(tilemap.GetTile(i).name)))
             {
                 if (i.x <= emptyBoundMin.x){
                     emptyBoundMin.x = i.x;
