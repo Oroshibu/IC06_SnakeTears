@@ -41,19 +41,26 @@ public class SheepAnimator : MonoBehaviour
         {
             if (collision.transform.position.y -transform.position.y > 0.5f)
             {
-                collision.gameObject.GetComponent<Player_Controller>().LockMovementUntilGrounded();
-                if (transform.position.x > collision.transform.position.x)
-                {
-                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-300, 500), ForceMode2D.Impulse);
-                }
-                else
-                {
-                    collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(300, 500), ForceMode2D.Impulse);
-                }
-
-                //patrolAI.Pause();
+                PushPlayerBack(collision);
+                patrolAI.Pause();
             }
 
+        }
+    }
+
+    private void PushPlayerBack(Collision2D collision)
+    {
+        if (collision.transform.position.y - transform.position.y > 0.5f)
+        {
+            collision.gameObject.GetComponent<Player_Controller>().LockMovementUntilGrounded();
+            if (transform.position.x > collision.transform.position.x)
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-300, 500), ForceMode2D.Impulse);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(300, 500), ForceMode2D.Impulse);
+            }
         }
     }
 }

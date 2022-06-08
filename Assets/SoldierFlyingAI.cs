@@ -56,7 +56,42 @@ public class SoldierFlyingAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Game_Manager.i.Death();
+            //Game_Manager.i.Death();            
+
+            PushPlayerBack(collision);
+            if (!isAttacking)
+            {
+                FlipTowards(collision.transform.position);
+                StartCoroutine(AttackCoroutine());
+            }
+        }
+    }
+
+    private void PushPlayerBack(Collision2D collision)
+    {
+        if (collision.transform.position.y - transform.position.y > 0.5f)
+        {
+            collision.gameObject.GetComponent<Player_Controller>().LockMovementUntilGrounded();
+            if (transform.position.x > collision.transform.position.x)
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(-300, 500), ForceMode2D.Impulse);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(300, 500), ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    private void FlipTowards(Vector3 position)
+    {
+        if (transform.position.x - position.x > 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
