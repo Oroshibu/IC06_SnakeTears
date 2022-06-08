@@ -8,6 +8,7 @@ public class Scene_Manager : MonoBehaviour
     //Singletion Pattern
 
     private static Scene_Manager _i;
+    private int levelCount = 20;
 
     public static Scene_Manager i
     {
@@ -43,7 +44,7 @@ public class Scene_Manager : MonoBehaviour
     {
         Levels_Manager.i.NextLevel();
 
-        if (Levels_Manager.i.levelID > 9)
+        if (Levels_Manager.i.levelID > levelCount)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         } else
