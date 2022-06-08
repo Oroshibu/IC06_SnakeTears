@@ -52,6 +52,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (ctx.performed && !controlsLocked)
         {
+            lockedMovementUntilGrounded = false;
             directionX = ctx.ReadValue<Vector2>().x;
         }
         else if (ctx.canceled)
