@@ -30,6 +30,8 @@ ScriptedImporter:
     _asset: {fileID: 1607746642853313216, guid: 072643c444e871c468e3a1b458178bca, type: 3}
   - _key: Sheep
     _asset: {fileID: 7225162538971386048, guid: c6636ff6dd33b984b9119e76ebedcb82, type: 3}
+  - _key: Cockatrice
+    _asset: {fileID: 4065059717214445949, guid: e5ad57ff3212add49b19884836d71fae, type: 3}
   - _key: SoldierGround
     _asset: {fileID: 754070546078118549, guid: 4d305866604159b42b1af1da4f54df73, type: 3}
   - _key: SoldierFlying

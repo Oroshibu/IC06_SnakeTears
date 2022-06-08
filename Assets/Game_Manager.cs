@@ -95,7 +95,6 @@ public class Game_Manager : MonoBehaviour
         player.UnlockMovement();
     }
 
-
     public void Win()
     {
         if (win) return;
@@ -117,6 +116,15 @@ public class Game_Manager : MonoBehaviour
         if (dead) return;
         dead = true;
         player.Die();
+        StartCoroutine(DeathCoroutine());
+    }
+
+    public void StonePlayer()
+    {
+        if (dead) return;
+        dead = true;
+        player.Stone();
+        Camera_Manager.i.RayCameraEffect(1, .1f);
         StartCoroutine(DeathCoroutine());
     }
 

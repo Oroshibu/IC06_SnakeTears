@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Player_Controller : MonoBehaviour
 {
-    [SerializeField] GameObject selfPrefab;
+    [SerializeField] GameObject stonePrefab;
     [SerializeField] LayerMask maskGround;
     [SerializeField] Animator animator;
 
@@ -326,5 +326,13 @@ public class Player_Controller : MonoBehaviour
     public void Die()
     {
         isDead = true;
+    }
+
+    public void Stone()
+    {
+        gameObject.SetActive(false);
+        Stoneable_Behavior stone = Instantiate(stonePrefab, transform.position, Quaternion.identity).GetComponent<Stoneable_Behavior>();
+        stone.transform.localScale = transform.localScale;
+        stone.StonedAnimation();
     }
 }

@@ -41,11 +41,11 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
             mainState.SetActive(false);
             stoneStates[stoneState].SetActive(true);
         }
-        else
-        {
-            mainState.SetActive(true);
-            stoneStates[stoneState].SetActive(false);
-        }
+        //else
+        //{
+        //    mainState.SetActive(true);
+        //    stoneStates[stoneState].SetActive(false);
+        //}
 
         if (fields.GetBool("halfTiled"))
         {
@@ -116,17 +116,20 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
 
         //stoneComponent.SnapToClosestX();
         stoneComponent.SnapToClosestX(.2f);
-        //stoneComponent.sprite.transform.rotation = Quaternion.Euler(0, 0, 20 * Mathf.Sign(stoneComponent.sprite.transform.lossyScale.x));
+
+        StonedAnimation();
+    }
+
+    public void StonedAnimation()
+    {
+        StoneComponent stoneComponent = stoneStates[stoneState].GetComponent<StoneComponent>();
 
         //dotween rotation sequence
         Sequence rotaSeq = DOTween.Sequence();
         rotaSeq.Insert(0, stoneComponent.sprite.transform.DOLocalMoveY(.1f, .25f).SetEase(Ease.OutBounce));
         rotaSeq.Insert(0, stoneComponent.sprite.transform.DOLocalRotate(new Vector3(0, 0, 20), .25f).SetEase(Ease.OutBounce));
-        //rotaSeq.Insert(.75f, stoneComponent.sprite.transform.DOLocalMoveY(.35f, .2f).SetEase(Ease.OutBack));
-        //rotaSeq.Insert(.75f, stoneComponent.sprite.transform.DOLocalRotate(new Vector3(0, 0, 30), .2f).SetEase(Ease.OutBack));
         rotaSeq.Insert(.45f, stoneComponent.sprite.transform.DOLocalMoveY(.2f, .1f).SetEase(Ease.OutSine));
         rotaSeq.Insert(.6f, stoneComponent.sprite.transform.DOLocalMoveY(0f, .1f).SetEase(Ease.InExpo));
-        //rotaSeq.Insert(.75f, stoneComponent.sprite.transform.DOLocalRotate(new Vector3(0, 0, 0), .25f).SetEase(Ease.InBack));
         rotaSeq.Insert(.4f, stoneComponent.sprite.transform.DOLocalRotate(new Vector3(0, 0, 30), .1f).SetEase(Ease.InOutSine));
         rotaSeq.Insert(.6f, stoneComponent.sprite.transform.DOLocalRotate(new Vector3(0, 0, 0), .5f).SetEase(Ease.OutBounce));
     }

@@ -263,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656e2a7a7ab82db4d96a0e695d984468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selfPrefab: {fileID: 1090105820097738397}
+  stonePrefab: {fileID: 5393341874034804396, guid: acee0d847e6932e4e8e512d00b57a3cf, type: 3}
   maskGround:
     serializedVersion: 2
     m_Bits: 1152
