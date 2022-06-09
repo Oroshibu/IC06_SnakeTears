@@ -6,6 +6,7 @@ public class Levels_Manager : MonoBehaviour
 {
     private static Levels_Manager _i;
     public int levelID = 0;
+    public int unlockedLevelID = 0;
 
     public static Levels_Manager i { 
         get 
@@ -26,11 +27,17 @@ public class Levels_Manager : MonoBehaviour
         {
             _i = this;
             DontDestroyOnLoad(gameObject);
+            Init();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+    
+    private void Init()
+    {
+        Save_Manager.i.Load();
     }
 
     public void StartGame()

@@ -6,6 +6,9 @@ public class Audio_Manager : MonoBehaviour
 {
     private static Audio_Manager _i;
 
+    public float volumeMusic = .75f;
+    public float volumeSFX = .75f;
+
     private AudioSource musicSource;    
     private AudioSource sfxSource;
     
@@ -18,7 +21,7 @@ public class Audio_Manager : MonoBehaviour
         public float pitchVariation;
     }
 
-    public List<AudioClip> Musics;
+    public List<AudioClip> musics;
     private int playingMusicIndex = -1;
     public List<SFX> SFXs;
     
@@ -43,6 +46,7 @@ public class Audio_Manager : MonoBehaviour
         {
             _i = this;
             DontDestroyOnLoad(gameObject);
+            Init();
         }
         else
         {
@@ -50,20 +54,22 @@ public class Audio_Manager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Init()
     {
         //get audio sources
         AudioSource[] sources = GetComponents<AudioSource>();
         musicSource = sources[0];
         sfxSource = sources[1];
+        Save_Manager.i.Load();
     }
 
     public void PlayMusic(int index)
     {
-        if (index < Musics.Count && playingMusicIndex != index)
+        if (index < musics.Count && playingMusicIndex != index)
         {
             playingMusicIndex = index;
-            musicSource.clip = Musics[index];
+            musicSource.volume = volumeMusic * .5f;
+            musicSource.clip = musics[index];
             musicSource.Play();
         }
     }
@@ -75,7 +81,7 @@ public class Audio_Manager : MonoBehaviour
             if (sfx.name == name)
             {
                 sfxSource.pitch = 1f + Random.Range(-sfx.pitchVariation, sfx.pitchVariation);
-                sfxSource.PlayOneShot(sfx.clip, sfx.volume);
+                sfxSource.PlayOneShot(sfx.clip, sfx.volume * volumeSFX);
                 break;
             }
         }

@@ -14,10 +14,10 @@ public class Titlescreen_Manager : MonoBehaviour, ISelectHandler, IMoveHandler /
     public void StartGame()
     {
         if (transitioningToNextScene) return;
-        StartCoroutine(StartGameCoroutine(1));
+        StartCoroutine(StartGameCoroutine(0));
     }
 
-    public void ContinueGame(int levelID = 1)
+    public void ContinueGame(int levelID = 0)
     {
         if (transitioningToNextScene) return;
         StartCoroutine(StartGameCoroutine(levelID));
@@ -28,7 +28,8 @@ public class Titlescreen_Manager : MonoBehaviour, ISelectHandler, IMoveHandler /
         transitioningToNextScene = true;
         yield return Transition_Manager.i.TransitionOut(1f);
         //Scene_Manager.i.NextScene();
-        Scene_Manager.i.LoadScene(levelID);
+        Levels_Manager.i.levelID = levelID;
+        Scene_Manager.i.LoadScene(1);
     }
 
     public void QuitGame()
