@@ -37,6 +37,8 @@ public class Game_Manager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player_Controller>();
+
+        Audio_Manager.i.PlayMusic(1);
     }
 
     public void PlayerSpawned()

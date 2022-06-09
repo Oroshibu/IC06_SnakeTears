@@ -102,6 +102,7 @@ public class Player_Controller : MonoBehaviour
         LockMovement();
         PlayAnimation("Player_Attack");
         Camera_Manager.i.Shake();
+        Audio_Manager.i.PlaySound("ray_shoot");
         Camera_Manager.i.RayCameraEffect(1, .1f);
         ray.RayShootStart();
         yield return new WaitForSeconds(.7f);

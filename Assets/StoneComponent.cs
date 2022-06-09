@@ -136,6 +136,7 @@ public class StoneComponent : MonoBehaviour
         //if line pushed
         if (TryPushLine(pushDirectionX))
         {
+            Audio_Manager.i.PlaySound("stone_slide");
             var topObject = GetObject(Direction.Up);
             if (topObject == null || !topObject.CompareTag("Ground"))
             {
