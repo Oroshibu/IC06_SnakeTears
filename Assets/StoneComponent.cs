@@ -289,6 +289,9 @@ public class StoneComponent : MonoBehaviour
 
     private void Start()
     {
+        canBePushed = true;
+        isGrounded = true;
+        isFalling = false;
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
     }
@@ -336,6 +339,10 @@ public class StoneComponent : MonoBehaviour
             if (!canBePushed && isOnTilesGround)
             {
                 ps.Play();
+                
+            }
+            if (!canBePushed)
+            {
                 Audio_Manager.i.PlaySound("stone_fall");
             }
             canBePushed = true;

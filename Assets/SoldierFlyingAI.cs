@@ -108,12 +108,14 @@ public class SoldierFlyingAI : MonoBehaviour
         patrolAI.Pause(2.5f);
         isAttacking = true;
 
+        Audio_Manager.i.PlaySound("soldierf_attack1");
         PlayAnimation("SoldierFlying_Attack1");
         yield return new WaitForSeconds(.3f);
         
         stoneableBehavior.canBeStoned = true;
         yield return new WaitForSeconds(.7f);
 
+        Audio_Manager.i.PlaySound("soldierf_attack2");        
         PlayAnimation("SoldierFlying_Attack2");
         stoneableBehavior.canBeStoned = false;
         var arrow = Instantiate(arrowPrefab, lineOfSight.position, Quaternion.identity);

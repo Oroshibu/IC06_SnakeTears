@@ -111,7 +111,8 @@ public class SoldierGroundAI : MonoBehaviour
     {
         patrolAI.Pause(2.5f);
         isAttacking = true;
-        
+
+        Audio_Manager.i.PlaySound("soldierg_attack1");
         PlayAnimation("SoldierGround_Attack1");
         yield return new WaitForSeconds(1f);
 
@@ -119,7 +120,8 @@ public class SoldierGroundAI : MonoBehaviour
         triggerDamage.gameObject.SetActive(true);
         triggerDamage.GetComponent<BoxCollider2D>().isTrigger = false;
         triggerDamage.GetComponent<BoxCollider2D>().isTrigger = true;
-        
+
+        Audio_Manager.i.PlaySound("soldierg_attack2");
         PlayAnimation("SoldierGround_Attack2");
         yield return new WaitForSeconds(.25f);
 

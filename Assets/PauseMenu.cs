@@ -40,6 +40,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         background.DOKill();
         pauseMenu.DOKill();
         background.DOFade(0, .5f).SetEase(Ease.InCubic).SetUpdate(true);
@@ -48,6 +49,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         Resume();
         Time.timeScale = 1;
         Game_Manager.i.Restart();
@@ -55,6 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Exit()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         Resume();
         Time.timeScale = 1;
         Game_Manager.i.Exit();

@@ -46,6 +46,7 @@ public class Player_Controller : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
+        isGrounded = true;
     }
 
     public void Move(InputAction.CallbackContext ctx)
@@ -151,6 +152,7 @@ public class Player_Controller : MonoBehaviour
 
     public void LockMovementUntilGrounded()
     {
+        Audio_Manager.i.PlaySound("player_bounce");
         lockedMovementUntilGrounded = true;
         rb.velocity = Vector2.zero;
     }
@@ -341,6 +343,7 @@ public class Player_Controller : MonoBehaviour
 
     public void Stone()
     {
+        Audio_Manager.i.PlaySound("ray_stone");
         gameObject.SetActive(false);
         Stoneable_Behavior stone = Instantiate(stonePrefab, transform.position, Quaternion.identity).GetComponent<Stoneable_Behavior>();
         stone.transform.localScale = transform.localScale;

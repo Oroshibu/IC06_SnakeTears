@@ -65,7 +65,7 @@ MonoBehaviour:
     pitchVariation: 0
   - name: player_win
     clip: {fileID: 8300000, guid: a869245b085b1074d82dda60f5da8dca, type: 3}
-    volume: 0.7
+    volume: 0.3
     pitchVariation: 0
   - name: player_jump
     clip: {fileID: 8300000, guid: bd29286635d817e4e849e785f56654d0, type: 3}
@@ -73,7 +73,7 @@ MonoBehaviour:
     pitchVariation: 0.2
   - name: player_fall
     clip: {fileID: 8300000, guid: d2ff9af14fd723944b3832b5ac126365, type: 3}
-    volume: 1
+    volume: 0.5
     pitchVariation: 0
   - name: menu_click
     clip: {fileID: 8300000, guid: 90484b8c7421ba549ad4f35e7fee3259, type: 3}
@@ -85,7 +85,47 @@ MonoBehaviour:
     pitchVariation: 0
   - name: block_break
     clip: {fileID: 8300000, guid: a2b29d4a63049af438627882c9b22cfe, type: 3}
+    volume: 0.1
+    pitchVariation: 0
+  - name: player_bounce
+    clip: {fileID: 8300000, guid: d95e9e6c0f3fb6f41ab537b8e2429336, type: 3}
     volume: 0.4
+    pitchVariation: 0
+  - name: soldierf_attack1
+    clip: {fileID: 8300000, guid: 752b5eeaa9403f24cb7afa2a95ffbed7, type: 3}
+    volume: 1.7
+    pitchVariation: 2
+  - name: soldierf_attack2
+    clip: {fileID: 8300000, guid: 8b41690f6412b9246a61489db5a0f47c, type: 3}
+    volume: 2
+    pitchVariation: 0
+  - name: soldierf_death
+    clip: {fileID: 8300000, guid: 6e9e7cbe9a6f10e44b6153761b96853c, type: 3}
+    volume: 2
+    pitchVariation: 0
+  - name: soldierg_attack1
+    clip: {fileID: 8300000, guid: eb170c90567e42347886e2786027e8aa, type: 3}
+    volume: 1.5
+    pitchVariation: 0
+  - name: soldierg_attack2
+    clip: {fileID: 8300000, guid: ff1cb912f11663748895017cfc2fadfb, type: 3}
+    volume: 2
+    pitchVariation: 0
+  - name: soldierg_death
+    clip: {fileID: 8300000, guid: 4d7736315b61d384bb551655dd6955cb, type: 3}
+    volume: 2
+    pitchVariation: 0
+  - name: sheep_death
+    clip: {fileID: 8300000, guid: 92381eab1a57e414492bd0cd56d185ed, type: 3}
+    volume: 0.8
+    pitchVariation: 0
+  - name: player_death
+    clip: {fileID: 8300000, guid: ff7f423602e6089478ad5f0b6e8ee339, type: 3}
+    volume: 1.6
+    pitchVariation: 0
+  - name: enemy_crushed
+    clip: {fileID: 8300000, guid: f077b6ff328ccf14ea731faf6bd49720, type: 3}
+    volume: 1.2
     pitchVariation: 0
 --- !u!82 &7506175827880329180
 AudioSource:

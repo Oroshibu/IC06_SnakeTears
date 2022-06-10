@@ -143,6 +143,7 @@ public class Game_Manager : MonoBehaviour
 
     IEnumerator DeathCoroutine()
     {
+        Audio_Manager.i.PlaySound("player_death");
         LockControls();
         Camera_Manager.i.Shake(2, .2f);
         Camera_Manager.i.DeathCameraEffect(1, 1);

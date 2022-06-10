@@ -35,6 +35,13 @@ public class CrushableEntity : MonoBehaviour
 
     IEnumerator CrushCoroutine()
     {
+        string deathSound = GetComponentInParent<Stoneable_Behavior>().deathSound;
+        if (!string.IsNullOrEmpty(deathSound))
+        {
+            Audio_Manager.i.PlaySound(deathSound);
+        }
+        Audio_Manager.i.PlaySound("enemy_crushed");
+
         if (TryGetComponent<PatrolAI>(out PatrolAI ai))
         {
             ai.enabled = false;

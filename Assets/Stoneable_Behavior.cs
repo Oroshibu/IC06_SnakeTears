@@ -19,6 +19,8 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
     [HideInInspector]
     public int stoneState = 0;
 
+    public string deathSound;
+
     private void Awake()
     {
         isStone = false;
@@ -113,6 +115,10 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
         if (!playedStoneSound)
         {
             Audio_Manager.i.PlaySound("ray_stone");
+            if (!string.IsNullOrEmpty(deathSound))
+            {
+                Audio_Manager.i.PlaySound(deathSound);
+            }
             playedStoneSound = true;
         }
 

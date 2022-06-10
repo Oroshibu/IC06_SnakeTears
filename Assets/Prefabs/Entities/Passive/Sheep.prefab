@@ -544,6 +544,7 @@ MonoBehaviour:
   stonedDuration: -1
   canBeStoned: 1
   stoneState: 0
+  deathSound: sheep_death
 --- !u!1001 &641852406295022250
 PrefabInstance:
   m_ObjectHideFlags: 0

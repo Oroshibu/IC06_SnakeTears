@@ -54,6 +54,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9100000, guid: b54ffa7e61fb4a148b25e99a2cbaab30, type: 2}
     - target: {fileID: 5846078845296134466, guid: c6636ff6dd33b984b9119e76ebedcb82, type: 3}
+      propertyPath: deathSound
+      value: soldierf_death
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846078845296134466, guid: c6636ff6dd33b984b9119e76ebedcb82, type: 3}
       propertyPath: canBeStoned
       value: 0
       objectReference: {fileID: 0}
