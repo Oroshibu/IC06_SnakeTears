@@ -223,6 +223,7 @@ public class Player_Controller : MonoBehaviour
             {
                 coyoteTimeTimer = coyoteTime;
                 ps_dust.Play();
+                Audio_Manager.i.PlaySound("player_fall");                
             }
 
             transform.position = new Vector2(transform.position.x, Mathf.RoundToInt(transform.position.y * 25) / 25f);
@@ -261,6 +262,7 @@ public class Player_Controller : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpVelocity, ForceMode2D.Impulse);
+                Audio_Manager.i.PlaySound("player_jump");
                 jumpPressed = false;
                 ps_dust.Play();
                 coyoteTimeTimer = 0;

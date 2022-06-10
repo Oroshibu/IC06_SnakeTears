@@ -20,6 +20,7 @@ public class LevelButton : MonoBehaviour
     }
 
     public void OnClick(){
+        Audio_Manager.i.PlaySound("menu_click");
         FindObjectOfType<Titlescreen_Manager>().ContinueGame(levelID);
     }
 }

@@ -55,8 +55,17 @@ public class BreakableBlock_Behavior : MonoBehaviour
         StartCoroutine(BreakCoroutine());
     }
 
+    bool hasPlayedBreakSound = false;
+    
     IEnumerator BreakCoroutine()
     {
+        if (!hasPlayedBreakSound)
+        {
+            hasPlayedBreakSound = true;
+            Audio_Manager.i.PlaySound("block_break");
+            Audio_Manager.i.PlaySound("stone_fall");
+        }
+
         var instance = Instantiate(ps, transform.position, transform.rotation);
         Destroy(instance.gameObject, 5);
 

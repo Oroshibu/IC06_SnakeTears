@@ -53,11 +53,39 @@ MonoBehaviour:
   SFXs:
   - name: stone_slide
     clip: {fileID: 8300000, guid: a5c461f565b4f804ab11fd112f5bde92, type: 3}
-    volume: 2
+    volume: 1
     pitchVariation: 0.1
   - name: ray_shoot
     clip: {fileID: 8300000, guid: 36ad4dfa6681eee4b8892a6a05cd2592, type: 3}
     volume: 1
+    pitchVariation: 0
+  - name: ray_stone
+    clip: {fileID: 8300000, guid: dbc9fdb8d64aaf64bbcffb5c9546605d, type: 3}
+    volume: 1
+    pitchVariation: 0
+  - name: player_win
+    clip: {fileID: 8300000, guid: a869245b085b1074d82dda60f5da8dca, type: 3}
+    volume: 0.7
+    pitchVariation: 0
+  - name: player_jump
+    clip: {fileID: 8300000, guid: bd29286635d817e4e849e785f56654d0, type: 3}
+    volume: 0.5
+    pitchVariation: 0.2
+  - name: player_fall
+    clip: {fileID: 8300000, guid: d2ff9af14fd723944b3832b5ac126365, type: 3}
+    volume: 1
+    pitchVariation: 0
+  - name: menu_click
+    clip: {fileID: 8300000, guid: 90484b8c7421ba549ad4f35e7fee3259, type: 3}
+    volume: 1
+    pitchVariation: 0
+  - name: stone_fall
+    clip: {fileID: 8300000, guid: e5a4bd8f5c10e854b8f7386300f719d0, type: 3}
+    volume: 1
+    pitchVariation: 0
+  - name: block_break
+    clip: {fileID: 8300000, guid: a2b29d4a63049af438627882c9b22cfe, type: 3}
+    volume: 0.4
     pitchVariation: 0
 --- !u!82 &7506175827880329180
 AudioSource:

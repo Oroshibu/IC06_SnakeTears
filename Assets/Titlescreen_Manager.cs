@@ -39,6 +39,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
 
     public void LevelsMenu()
     {
+        Audio_Manager.i.PlaySound("menu_click");        
         mainMenu.SetActive(false);
         settingsMenu.SetActive(false);
         levelsMenu.SetActive(true);
@@ -47,6 +48,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
 
     public void SettingsMenu()
     {
+        Audio_Manager.i.PlaySound("menu_click");        
         mainMenu.SetActive(false);
         levelsMenu.SetActive(false);
         settingsMenu.SetActive(true);
@@ -55,6 +57,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
     
     public void Back()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         levelsMenu.SetActive(false);
         settingsMenu.SetActive(false);
         mainMenu.SetActive(true);
@@ -63,6 +66,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
 
     public void QuitGame()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         Application.Quit();
     }
 

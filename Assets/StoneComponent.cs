@@ -336,6 +336,7 @@ public class StoneComponent : MonoBehaviour
             if (!canBePushed && isOnTilesGround)
             {
                 ps.Play();
+                Audio_Manager.i.PlaySound("stone_fall");
             }
             canBePushed = true;
             rb.isKinematic = true;

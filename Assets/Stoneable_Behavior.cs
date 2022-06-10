@@ -82,11 +82,14 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
         if (!isStone)
         //if (!isStone && !isTransforming)
         {
+            //isStone = true;
             //isTransforming = true;
             StartCoroutine(transfoStoned());
         }
 
     }
+
+    bool playedStoneSound = false;
 
 
     IEnumerator transfoStoned()
@@ -107,6 +110,12 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
         stoneStates[stoneState].transform.localScale = new Vector3(Mathf.Sign(mainState.transform.localScale.x), 1, 1);
 
         isStone = true;
+        if (!playedStoneSound)
+        {
+            Audio_Manager.i.PlaySound("ray_stone");
+            playedStoneSound = true;
+        }
+
         mainState.SetActive(false);
         //mainState.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         stoneStates[stoneState].SetActive(true);

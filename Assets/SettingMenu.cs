@@ -17,11 +17,13 @@ public class SettingMenu : MonoBehaviour
 
     private void OnEnable()
     {
+        m_EventSystem = EventSystem.current;
         SettingsMenu();
     }
 
     public void SettingsMenu()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         howToPlayMenu.SetActive(false);
         settingsMenu.SetActive(true);
         m_EventSystem.SetSelectedGameObject(null);
@@ -29,6 +31,7 @@ public class SettingMenu : MonoBehaviour
 
     public void HowToPlayMenu()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         settingsMenu.SetActive(false);
         howToPlayMenu.SetActive(true);
         m_EventSystem.SetSelectedGameObject(null);        
@@ -36,6 +39,7 @@ public class SettingMenu : MonoBehaviour
 
     public void ToggleFullscreen()
     {
+        Audio_Manager.i.PlaySound("menu_click");
         //Screen.fullScreen = !Screen.fullScreen;
 
         if (Screen.fullScreenMode == FullScreenMode.Windowed)

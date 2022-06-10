@@ -117,6 +117,7 @@ public class Game_Manager : MonoBehaviour
 
     IEnumerator WinCoroutine()
     {
+        Audio_Manager.i.PlaySound("player_win");
         LockControls();
         yield return new WaitForSeconds(1f);
         yield return Transition_Manager.i.TransitionOut(player.transform.position);
