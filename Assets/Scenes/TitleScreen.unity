@@ -1272,6 +1272,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d5df2f2c-abae-49d1-8325-0656b2b6eea7
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 36e4bd4a-8d49-4006-a819-f4e7d5f35018
+    m_ActionName: UI/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: UI
@@ -3881,20 +3885,8 @@ PrefabInstance:
       value: -216.15619
       objectReference: {fileID: 0}
     - target: {fileID: 5320655363508022597, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5320655363508022597, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5320655363508022597, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5320655363508022597, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -43.078094
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5320655363552290554, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}
       propertyPath: m_AnchorMax.x

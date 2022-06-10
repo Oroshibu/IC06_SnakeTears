@@ -95,6 +95,14 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+    public void Pause(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Game_Manager.i.TogglePause();
+        }
+    }
+
     IEnumerator AttackCoroutine()
     {
         canAttack = false;
@@ -335,5 +343,16 @@ public class Player_Controller : MonoBehaviour
         Stoneable_Behavior stone = Instantiate(stonePrefab, transform.position, Quaternion.identity).GetComponent<Stoneable_Behavior>();
         stone.transform.localScale = transform.localScale;
         stone.StonedAnimation();
+    }
+
+    public void ToggleUIControls(bool isUI)
+    {
+        if (isUI)
+        {
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
+        } else
+        {
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("GamePlay");
+        }
     }
 }

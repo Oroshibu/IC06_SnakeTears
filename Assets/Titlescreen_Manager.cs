@@ -31,7 +31,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
     IEnumerator StartGameCoroutine(int levelID)
     {
         transitioningToNextScene = true;
-        yield return Transition_Manager.i.TransitionOut(1f);
+        yield return Transition_Manager.i.TransitionOut(1f,0f);
         //Scene_Manager.i.NextScene();
         Levels_Manager.i.levelID = levelID;
         Scene_Manager.i.LoadScene(1);
@@ -69,6 +69,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
     private void Start()
     {
         m_EventSystem = EventSystem.current;
+        StartCoroutine(Transition_Manager.i.TransitionIn(exitTimes: 0));
     }
 
     public void OnMove(InputAction.CallbackContext ctx)

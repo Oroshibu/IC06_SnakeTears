@@ -7,6 +7,8 @@ public class Game_Manager : MonoBehaviour
     //Singletion Pattern
     private static Game_Manager _i;
 
+    public PauseMenu pauseMenu;
+
     public static Game_Manager i
     {
         get
@@ -158,5 +160,34 @@ public class Game_Manager : MonoBehaviour
         LockPlayer();
         yield return Transition_Manager.i.TransitionOut(player.transform.position, .5f, 0);
         Scene_Manager.i.ReloadScene();
+    }
+
+    public void Exit()
+    {
+        StartCoroutine(ExitCoroutine());
+    }
+
+    IEnumerator ExitCoroutine()
+    {
+        LockPlayer();
+        yield return Transition_Manager.i.TransitionOut(player.transform.position, .75f, 0);
+        Scene_Manager.i.LoadScene(0);
+    }
+
+    public void TogglePause()
+    {
+        if (pauseMenu.gameObject.activeSelf)
+        {
+            pauseMenu.Resume();
+        }
+        else
+        {
+           pauseMenu.gameObject.SetActive(true);
+        }
+    }
+
+    public void ToggleUIControls(bool isUI)
+    {
+        player.ToggleUIControls(isUI);
     }
 }

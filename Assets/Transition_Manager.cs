@@ -90,6 +90,7 @@ public class Transition_Manager : MonoBehaviour
         transiTween.Append(maskImage.rectTransform.DOSizeDelta(Vector2.one * sizeMult * maxScale, duration).SetEase(ease));
         transiTween.Insert(duration/2, transiFlatImage.DOFade(sizeMult == 1 ? 0 : 1, duration/2).SetEase(ease));
         transiTween.OnKill(() => transiTween = null);
+        transiTween.SetUpdate(true);
 
         yield return transiTween.WaitForCompletion();
         yield return new WaitForSeconds(exitTimes);
