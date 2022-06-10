@@ -171,7 +171,7 @@ public class Game_Manager : MonoBehaviour
     {
         LockPlayer();
         yield return Transition_Manager.i.TransitionOut(player.transform.position, .75f, 0);
-        Scene_Manager.i.LoadScene(0);
+        Scene_Manager.i.LoadScene(1);
     }
 
     public void TogglePause()

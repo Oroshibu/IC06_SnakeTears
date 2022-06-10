@@ -34,7 +34,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
         yield return Transition_Manager.i.TransitionOut(1f,0f);
         //Scene_Manager.i.NextScene();
         Levels_Manager.i.levelID = levelID;
-        Scene_Manager.i.LoadScene(1);
+        Scene_Manager.i.LoadScene(2);
     }
 
     public void LevelsMenu()
