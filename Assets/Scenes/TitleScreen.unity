@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01fc56e9619dafe48b7721b0166b8ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsCount: 20
+  levelsCount: 21
   levelButtonPrefab: {fileID: 1617111845808045735, guid: 8b491d4c2a6792e4cb4e4d335a44521b, type: 3}
   buttonsContainerTransform: {fileID: 747558894}
 --- !u!1 &541435948
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 1
-  m_ConstraintCount: 5
+  m_ConstraintCount: 7
 --- !u!1 &888814513 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5320655363508022598, guid: 3301af53a4ad77d4eadb93ccce498cd1, type: 3}

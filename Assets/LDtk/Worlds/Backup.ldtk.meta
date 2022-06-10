@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: 5fc3413c69e85a94f81d2c9761d328f8
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
+  _jsonFile: {fileID: -164016180542632921, guid: 56341b2bbd5af244ea74dd97319d3b22, type: 3}
+  _pixelsPerUnit: 16
+  _atlas: {instanceID: 0}
+  _customLevelPrefab: {instanceID: 0}
+  _deparentInRuntime: 0
+  _intGridValueColorsVisible: 1
+  _useCompositeCollider: 1
+  _createBackgroundColor: 0
+  _intGridValues:
+  - _key: Tiles_1
+    _asset: {fileID: 11400000, guid: 59383d18f335b58439e7ae6aaa38c568, type: 2}
+  - _key: Tiles_2
+    _asset: {fileID: 11400000, guid: 8f81785b8a3434740a158f64266877b9, type: 2}
+  - _key: Tiles_3
+    _asset: {fileID: 11400000, guid: 9aa1bdc80a1dd0542a1731e994786cbd, type: 2}
+  _entities:
+  - _key: Player
+    _asset: {fileID: 3609931695761222941, guid: ab80230984bc18a49a1df36d38766b5a, type: 3}
+  - _key: Win
+    _asset: {fileID: 1607746642853313216, guid: 072643c444e871c468e3a1b458178bca, type: 3}
+  - _key: Sheep
+    _asset: {fileID: 7225162538971386048, guid: c6636ff6dd33b984b9119e76ebedcb82, type: 3}
+  - _key: Cockatrice
+    _asset: {fileID: 4065059717214445949, guid: e5ad57ff3212add49b19884836d71fae, type: 3}
+  - _key: SoldierGround
+    _asset: {fileID: 754070546078118549, guid: 4d305866604159b42b1af1da4f54df73, type: 3}
+  - _key: SoldierFlying
+    _asset: {fileID: 5779384347953645837, guid: 7c71f9da84b691c469bf541783584736, type: 3}
+  _enumGenerate: 0
+  _enumPath: 
+  _enumNamespace: 
