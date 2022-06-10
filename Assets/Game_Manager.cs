@@ -40,7 +40,7 @@ public class Game_Manager : MonoBehaviour
     {
         player = FindObjectOfType<Player_Controller>();
 
-        Audio_Manager.i.PlayMusic(1);
+        Audio_Manager.i.PlayMusic(0);
     }
 
     public void PlayerSpawned()
@@ -154,11 +154,11 @@ public class Game_Manager : MonoBehaviour
     {
         StartCoroutine(RestartCoroutine());
     }
-
+    
     IEnumerator RestartCoroutine()
     {
         LockPlayer();
-        yield return Transition_Manager.i.TransitionOut(player.transform.position, .5f, 0);
+        yield return Transition_Manager.i.TransitionOut(player.transform.position, .5f, 0, false);
         Scene_Manager.i.ReloadScene();
     }
 

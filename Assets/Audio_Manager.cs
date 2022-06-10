@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class Audio_Manager : MonoBehaviour
 {
     private static Audio_Manager _i;
@@ -67,11 +67,41 @@ public class Audio_Manager : MonoBehaviour
     {
         if (index < musics.Count && playingMusicIndex != index)
         {
-            playingMusicIndex = index;
-            musicSource.volume = volumeMusic * .5f;
-            musicSource.clip = musics[index];
-            musicSource.Play();
+            if (playingMusicIndex == -1)
+            {
+                playingMusicIndex = index;
+                musicSource.volume = 0;
+                musicSource.DOFade(volumeMusic * .5f, 2);
+                musicSource.clip = musics[index];
+                musicSource.Play();
+            }
+            else
+            {
+                //    musicSource.volume = 0;
+                //    musicSource.DOFade(volumeMusic * .5f, 2);
+                musicSource.clip = musics[index];
+                musicSource.Play();
+                playingMusicIndex = index;
+                //musicSource.DOFade(0, 2).OnComplete(() => {
+                //    musicSource.volume = 0;
+                //    musicSource.DOFade(volumeMusic * .5f, 2);
+                //    musicSource.clip = musics[index];
+                //    musicSource.Play();
+                //}
+                //);
+
+            }
         }
+    }
+
+    public void MusicFadeOut(float duration = 2)
+    {
+        musicSource.DOFade(0, duration);
+    }
+
+    public void MusicFadeIn(float duration = 2)
+    {
+        musicSource.DOFade(volumeMusic * .5f, duration);
     }
 
     public void PlaySound(string name)

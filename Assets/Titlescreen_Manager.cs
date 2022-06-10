@@ -70,6 +70,7 @@ public class Titlescreen_Manager : MonoBehaviour // required interface for OnSel
     {
         m_EventSystem = EventSystem.current;
         StartCoroutine(Transition_Manager.i.TransitionIn(exitTimes: 0));
+        Audio_Manager.i.PlayMusic(1);
     }
 
     public void OnMove(InputAction.CallbackContext ctx)

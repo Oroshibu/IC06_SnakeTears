@@ -45,9 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74751851257ec2a40a554d82d311d476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeMusic: 0.75
+  volumeSFX: 0.75
   musics:
-  - {fileID: 8300000, guid: af31f91a3a407fe40b68e62a554a9cff, type: 3}
-  - {fileID: 8300000, guid: 9a564d0d5ae07b04a9f67d4dad1cdcb3, type: 3}
+  - {fileID: 8300000, guid: 8b7ffff094f359e4489a056b19717195, type: 3}
+  - {fileID: 8300000, guid: b76a7b4b107c5834a8ad968d90af14b0, type: 3}
   SFXs:
   - name: stone_slide
     clip: {fileID: 8300000, guid: a5c461f565b4f804ab11fd112f5bde92, type: 3}

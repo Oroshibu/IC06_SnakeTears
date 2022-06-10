@@ -39,6 +39,8 @@ public class Transition_Manager : MonoBehaviour
 
     public IEnumerator TransitionIn(float duration = 1, float exitTimes = .5f)
     {
+        Audio_Manager.i.MusicFadeIn(duration);
+
         maskImage.rectTransform.anchoredPosition = Vector2.zero;
         transiFlatImage.rectTransform.anchoredPosition = Vector2.zero;
 
@@ -48,6 +50,8 @@ public class Transition_Manager : MonoBehaviour
 
     public IEnumerator TransitionIn(Vector2 worldPos, float duration = 1, float exitTimes = .5f)
     {
+        Audio_Manager.i.MusicFadeIn(duration);
+
         Vector2 anchoredPosition = canvas.WorldToCanvasPosition(worldPos, Camera_Manager.i.cameraObj);
 
         maskImage.rectTransform.anchoredPosition = anchoredPosition;
@@ -59,6 +63,8 @@ public class Transition_Manager : MonoBehaviour
 
     public IEnumerator TransitionOut(float duration = 2, float exitTimes = .5f)
     {
+        Audio_Manager.i.MusicFadeOut(duration);        
+        
         maskImage.rectTransform.anchoredPosition = Vector2.zero;
         transiFlatImage.rectTransform.anchoredPosition = Vector2.zero;
 
@@ -66,8 +72,13 @@ public class Transition_Manager : MonoBehaviour
         yield return TransitionAnim(0, duration, exitTimes: exitTimes);
     }
 
-    public IEnumerator TransitionOut(Vector2 worldPos, float duration = 2, float exitTimes = .5f)
+    public IEnumerator TransitionOut(Vector2 worldPos, float duration = 2, float exitTimes = .5f, bool isFadeOut = true)
     {
+        if (isFadeOut)
+        {
+            Audio_Manager.i.MusicFadeOut(duration);
+        }
+
         Vector2 anchoredPosition = canvas.WorldToCanvasPosition(worldPos, Camera_Manager.i.cameraObj);
 
         maskImage.rectTransform.anchoredPosition = anchoredPosition;

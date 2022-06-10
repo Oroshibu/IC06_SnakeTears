@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class FresqueManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class FresqueManager : MonoBehaviour
     
     public List<float> focusPoints;
     private List<TMPro.TextMeshProUGUI> textsList;
+
+    bool canSkip;
 
     private void Start()
     {
@@ -39,12 +42,15 @@ public class FresqueManager : MonoBehaviour
         
         yield return credits1.DOFade(1, 1).WaitForCompletion();
         yield return new WaitForSeconds(1);
+        canSkip = true;
         yield return credits1.DOFade(0, 1).WaitForCompletion();
         
         yield return credits2.DOFade(1, 1).WaitForCompletion();
         yield return new WaitForSeconds(1);
         yield return credits2.DOFade(0, 1).WaitForCompletion();
-        
+
+        Audio_Manager.i.PlayMusic(1);
+
         yield return transi.DOFade(0, 2).WaitForCompletion();
         for (int i = 1; i < focusPoints.Count; i++)
         {
@@ -58,5 +64,21 @@ public class FresqueManager : MonoBehaviour
         yield return new WaitForSeconds(6f);
         yield return transi.DOFade(1, 6).WaitForCompletion();
         Scene_Manager.i.LoadScene(1);
+    }
+
+    void Skip()
+    {
+        if (canSkip)
+        {
+            Scene_Manager.i.LoadScene(1);
+        }
+    }
+
+    public void OnSubmit(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Skip();
+        }
     }
 }
