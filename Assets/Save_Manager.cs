@@ -5,17 +5,33 @@ using UnityEngine;
 public class Save_Manager : MonoBehaviour
 {
     //Save system
-    public static Save_Manager i { get; set; }
+    private static Save_Manager _i;
+
+    public static Save_Manager i
+    {
+        get
+        {
+            if (_i != null)
+            {
+                return _i;
+            }
+            else
+            {
+                return _i = new GameObject("Save_Manager").AddComponent<Save_Manager>();
+            }
+        }
+    }
 
     private void Awake()
     {
-        if (i != null)
+        if (_i == null && _i != this)
         {
-            Destroy(gameObject);
+            _i = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            i = this;
+            Destroy(gameObject);
         }
     }
 
@@ -24,7 +40,7 @@ public class Save_Manager : MonoBehaviour
     {
         public float volumeMusic;
         public float volumeSFX;
-        public int levelID;
+        public int unlockedLevelID;
     }
 
     public void Save()
@@ -32,7 +48,7 @@ public class Save_Manager : MonoBehaviour
         Save_Data data = new Save_Data();
         data.volumeMusic = Audio_Manager.i.volumeMusic;
         data.volumeSFX = Audio_Manager.i.volumeSFX;
-        data.levelID = Levels_Manager.i.levelID;
+        data.unlockedLevelID = Levels_Manager.i.unlockedLevelID;
         
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("save", json);
@@ -49,7 +65,7 @@ public class Save_Manager : MonoBehaviour
 
             Audio_Manager.i.volumeMusic = data.volumeMusic;
             Audio_Manager.i.volumeSFX = data.volumeSFX;
-            Levels_Manager.i.levelID = data.levelID;
+            Levels_Manager.i.unlockedLevelID = data.unlockedLevelID;
         } else
         {
             Debug.Log("No save data found");

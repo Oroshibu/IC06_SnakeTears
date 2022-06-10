@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class Titlescreen_Manager : MonoBehaviour, ISelectHandler, IMoveHandler // required interface for OnSelect
+public class Titlescreen_Manager : MonoBehaviour // required interface for OnSelect
 {
-
+    EventSystem m_EventSystem;
     private bool transitioningToNextScene = false;
 
-    public GameObject firstButton;
+    public List<GameObject> firstButtons;
+
+    public GameObject mainMenu;
+    public GameObject levelsMenu;
+    public GameObject settingsMenu;
+
 
     public void StartGame()
     {
@@ -22,7 +27,7 @@ public class Titlescreen_Manager : MonoBehaviour, ISelectHandler, IMoveHandler /
         if (transitioningToNextScene) return;
         StartCoroutine(StartGameCoroutine(levelID));
     }
-
+    
     IEnumerator StartGameCoroutine(int levelID)
     {
         transitioningToNextScene = true;
@@ -32,30 +37,68 @@ public class Titlescreen_Manager : MonoBehaviour, ISelectHandler, IMoveHandler /
         Scene_Manager.i.LoadScene(1);
     }
 
+    public void LevelsMenu()
+    {
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        levelsMenu.SetActive(true);
+        m_EventSystem.SetSelectedGameObject(null);
+    }
+
+    public void SettingsMenu()
+    {
+        mainMenu.SetActive(false);
+        levelsMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+        m_EventSystem.SetSelectedGameObject(null);
+    }
+    
+    public void Back()
+    {
+        levelsMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        mainMenu.SetActive(true);
+        m_EventSystem.SetSelectedGameObject(null);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
     }
 
-    //Do this when the selectable UI object is selected.
-    public void OnSelect(BaseEventData eventData)
+    private void Start()
     {
-        Debug.Log(this.gameObject.name + " was selected");
+        m_EventSystem = EventSystem.current;
     }
 
-//    private void Start()
-//    {
-//        if (EventSystem.currentSelectedGameObject == null)
-//        {
-//            if (EventSystem.currentSelectedGameObject == null)
-//.SetSelectedGameObject(firstButton);
-//        }
-//    }
-
-
-    public void OnMove(AxisEventData eventData)
+    public void OnMove(InputAction.CallbackContext ctx)
     {
-        Debug.Log("MUNGILOS");
-        //throw new System.NotImplementedException();
+        if (ctx.performed && ctx.ReadValue<Vector2>() == Vector2.zero)
+        {
+            FocusFirstButton();
+        }
+    }
+
+    public void OnSubmit(InputAction.CallbackContext ctx)
+    {
+        if (ctx.canceled)
+        {
+            FocusFirstButton();
+        }
+    }
+
+    private void FocusFirstButton()
+    {
+        if (m_EventSystem.currentSelectedGameObject == null)
+        {
+            foreach (var button in firstButtons)
+            {
+                if (button.activeInHierarchy)
+                {
+                    m_EventSystem.SetSelectedGameObject(button);
+                    break;
+                }
+            }
+        }
     }
 }

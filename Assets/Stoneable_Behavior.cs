@@ -104,7 +104,7 @@ public class Stoneable_Behavior : MonoBehaviour, ILDtkImportedFields
         */
         yield return new WaitForSeconds(0);
         stoneStates[stoneState].transform.position = mainState.transform.position;
-        stoneStates[stoneState].transform.localScale = mainState.transform.localScale;
+        stoneStates[stoneState].transform.localScale = new Vector3(Mathf.Sign(mainState.transform.localScale.x), 1, 1);
 
         isStone = true;
         mainState.SetActive(false);

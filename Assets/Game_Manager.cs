@@ -101,6 +101,14 @@ public class Game_Manager : MonoBehaviour
     {
         if (win) return;
         win = true;
+
+        //update unlock
+        if (Levels_Manager.i.levelID + 1 > Levels_Manager.i.unlockedLevelID)
+        {
+            Levels_Manager.i.unlockedLevelID = Levels_Manager.i.levelID + 1;
+        }
+        Save_Manager.i.Save();
+
         player.SetHasWon(true);
         StartCoroutine(WinCoroutine());
     }

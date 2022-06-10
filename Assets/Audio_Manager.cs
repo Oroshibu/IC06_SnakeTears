@@ -86,4 +86,15 @@ public class Audio_Manager : MonoBehaviour
             }
         }
     }
+
+    public void SetMusicVolume(float volume)
+    {
+        volumeMusic = volume;
+        musicSource.volume = volumeMusic * .5f;
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        volumeSFX = volume;
+    }
 }
