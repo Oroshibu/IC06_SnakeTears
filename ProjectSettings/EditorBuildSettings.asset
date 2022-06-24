@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LDtkImporterScene.unity
     guid: 82a045fe5ea4056448dc14e47108be02
-  - enabled: 0
-    path: Assets/Scenes/DemoScreen.unity
-    guid: 148a548263e17c04d97c446dccb9cb24
+  - enabled: 1
+    path: Assets/Scenes/Outro.unity
+    guid: 0f2e9d694bbe7324c8bca2fb66e87a0e
   m_configObjects: {}
