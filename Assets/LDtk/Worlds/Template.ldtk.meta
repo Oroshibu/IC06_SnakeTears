@@ -38,6 +38,8 @@ ScriptedImporter:
     _asset: {fileID: 5779384347953645837, guid: 7c71f9da84b691c469bf541783584736, type: 3}
   - _key: Bush
     _asset: {fileID: 8603043373607558004, guid: 0e96b9df569cb7548b6015fba5dc38a3, type: 3}
+  - _key: Pot
+    _asset: {fileID: 2523774741845893786, guid: cecb38bd237a48a48bb7348c23d1f463, type: 3}
   _enumGenerate: 0
   _enumPath: 
   _enumNamespace: 
